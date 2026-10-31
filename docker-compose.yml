@@ -1,0 +1,21 @@
+# Local Postgres for development and tests. Deployed environments use Neon.
+services:
+  db:
+    image: postgres:17-alpine
+    ports:
+      - "127.0.0.1:54329:5432"
+    environment:
+      POSTGRES_USER: contractwatch
+      POSTGRES_DB: contractwatch
+      # Bound to localhost only and holds demonstration data, so no password.
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contractwatch"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  db-data:

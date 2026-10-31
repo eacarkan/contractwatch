@@ -1,0 +1,295 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ContractType {
+  CCAG_TRAVAUX
+  FIDIC_YB_1999
+  FIDIC_YB_2017
+  EPC_GENERIC
+}
+
+enum PartyRole {
+  CONTRACTOR
+  EMPLOYER
+  ENGINEER
+  PROJECT_MANAGER
+  EITHER
+  OTHER
+}
+
+enum DocKind {
+  GENERAL_CONDITIONS
+  PARTICULAR_CONDITIONS
+  AGREEMENT
+  ANNEX
+  SPECIFICATION
+  OCR_TEXT
+  OTHER
+}
+
+enum TextStatus {
+  PENDING
+  EXTRACTED
+  NEEDS_OCR
+  FAILED
+}
+
+enum ObligationCategory {
+  NOTICE
+  SUBMISSION
+  PAYMENT
+  APPROVAL
+  PROGRAMME
+  INSURANCE
+  SECURITY
+  TESTING
+  COMPLETION
+  DEFECTS
+  VARIATION
+  CLAIM
+  DISPUTE
+  OTHER
+}
+
+enum TriggerType {
+  FIXED_DATE
+  EVENT
+  PERIODIC
+  ON_DEMAND
+}
+
+enum DayBasis {
+  CALENDAR_DAYS
+  WORKING_DAYS
+  MONTHS
+}
+
+enum PeriodDirection {
+  AFTER
+  BEFORE
+}
+
+enum ReviewStatus {
+  PENDING
+  CONFIRMED
+  EDITED
+  REJECTED
+}
+
+enum RunStatus {
+  QUEUED
+  RUNNING
+  DONE
+  FAILED
+}
+
+enum DeadlineStatus {
+  OPEN
+  MET
+  MISSED
+  WAIVED
+  NOT_APPLICABLE
+}
+
+enum CorrDirection {
+  IN
+  OUT
+}
+
+enum CorrRelation {
+  SATISFIES
+  REFERS_TO
+  RESPONDS_TO
+  DISPUTES
+}
+
+model Contract {
+  id                    String           @id @default(uuid())
+  name                  String
+  type                  ContractType
+  language              String           @db.Char(2)
+  employer              String?
+  contractor            String?
+  engineer              String?
+  commencementDate      DateTime?        @db.Date
+  timeForCompletionDays Int?
+  currency              String?          @db.Char(3)
+  isDemo                Boolean          @default(true)
+  createdAt             DateTime         @default(now())
+  documents             Document[]
+  obligations           Obligation[]
+  events                Event[]
+  correspondence        Correspondence[]
+  holidays              Holiday[]
+}
+
+model Document {
+  id          String          @id @default(uuid())
+  contract    Contract        @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId  String
+  kind        DocKind
+  filename    String
+  storagePath String
+  language    String?         @db.Char(2)
+  pageCount   Int?
+  isScanned   Boolean?
+  textStatus  TextStatus      @default(PENDING)
+  createdAt   DateTime        @default(now())
+  clauses     Clause[]
+  runs        ExtractionRun[]
+}
+
+model Clause {
+  id          String       @id @default(uuid())
+  document    Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId  String
+  clauseRef   String
+  heading     String?
+  body        String
+  pageFrom    Int?
+  pageTo      Int?
+  orderIndex  Int
+  obligations Obligation[]
+
+  @@index([documentId, orderIndex])
+}
+
+model ExtractionRun {
+  id            String       @id @default(uuid())
+  document      Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId    String
+  status        RunStatus    @default(QUEUED)
+  model         String
+  promptVersion String
+  clauseRefs    String[]
+  startedAt     DateTime     @default(now())
+  finishedAt    DateTime?
+  inputTokens   Int?
+  outputTokens  Int?
+  rawOutput     Json?
+  error         String?
+  obligations   Obligation[]
+
+  @@index([documentId, status])
+}
+
+model Obligation {
+  id              String                     @id @default(uuid())
+  contract        Contract                   @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId      String
+  clause          Clause?                    @relation(fields: [clauseId], references: [id])
+  clauseId        String?
+  clauseRef       String
+  obligor         PartyRole
+  counterparty    PartyRole?
+  category        ObligationCategory
+  title           String                     @db.VarChar(90)
+  description     String
+  triggerType     TriggerType
+  triggerEvent    String?
+  periodValue     Int?
+  periodBasis     DayBasis?
+  periodDirection PeriodDirection            @default(AFTER)
+  recurrenceDays  Int?
+  isTimeBar       Boolean                    @default(false)
+  consequence     String?
+  sourceQuote     String                     @db.VarChar(400)
+  confidence      Decimal?                   @db.Decimal(3, 2)
+  reviewStatus    ReviewStatus               @default(PENDING)
+  reviewedAt      DateTime?
+  reviewNote      String?
+  run             ExtractionRun?             @relation(fields: [runId], references: [id])
+  runId           String?
+  createdAt       DateTime                   @default(now())
+  revisions       ObligationRevision[]
+  deadlines       Deadline[]
+  links           CorrespondenceObligation[]
+
+  @@index([contractId, reviewStatus])
+}
+
+model ObligationRevision {
+  id           String     @id @default(uuid())
+  obligation   Obligation @relation(fields: [obligationId], references: [id], onDelete: Cascade)
+  obligationId String
+  changedAt    DateTime   @default(now())
+  before       Json
+  after        Json
+  note         String?
+}
+
+model Event {
+  id         String     @id @default(uuid())
+  contract   Contract   @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId String
+  name       String
+  eventType  String
+  occurredOn DateTime   @db.Date
+  source     String?
+  createdAt  DateTime   @default(now())
+  deadlines  Deadline[]
+}
+
+model Deadline {
+  id           String                     @id @default(uuid())
+  obligation   Obligation                 @relation(fields: [obligationId], references: [id], onDelete: Cascade)
+  obligationId String
+  event        Event?                     @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  eventId      String?
+  dueOn        DateTime                   @db.Date
+  computedRule String
+  status       DeadlineStatus             @default(OPEN)
+  metBy        Correspondence?            @relation(fields: [metById], references: [id])
+  metById      String?
+  createdAt    DateTime                   @default(now())
+  links        CorrespondenceObligation[]
+
+  @@index([obligationId, dueOn])
+}
+
+model Holiday {
+  id         String   @id @default(uuid())
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId String
+  date       DateTime @db.Date
+  name       String
+
+  @@unique([contractId, date])
+}
+
+model Correspondence {
+  id           String                     @id @default(uuid())
+  contract     Contract                   @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId   String
+  direction    CorrDirection
+  sentOn       DateTime                   @db.Date
+  receivedOn   DateTime?                  @db.Date
+  referenceNo  String?
+  fromParty    PartyRole
+  toParty      PartyRole
+  subject      String
+  summary      String?
+  storagePath  String?
+  createdAt    DateTime                   @default(now())
+  links        CorrespondenceObligation[]
+  metDeadlines Deadline[]
+}
+
+model CorrespondenceObligation {
+  correspondence   Correspondence @relation(fields: [correspondenceId], references: [id], onDelete: Cascade)
+  correspondenceId String
+  obligation       Obligation     @relation(fields: [obligationId], references: [id], onDelete: Cascade)
+  obligationId     String
+  deadline         Deadline?      @relation(fields: [deadlineId], references: [id], onDelete: SetNull)
+  deadlineId       String?
+  relation         CorrRelation
+
+  @@id([correspondenceId, obligationId])
+}
