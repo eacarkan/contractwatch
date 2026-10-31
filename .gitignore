@@ -1,0 +1,37 @@
+# Real contract files and anything that can reverse the anonymisation (hard rule 3).
+raw/
+*.namemap.json
+*.ocr.txt
+
+# Contract file formats anywhere else in the tree; only synthetic test fixtures are allowed.
+*.pdf
+*.doc
+*.docx
+!test/fixtures/**
+
+# The private plan names real parties; the public summary is docs/ARCHITECTURE.md.
+docs/BUILD_PLAN.md
+
+# Secrets
+.env*
+!.env.example
+
+# Dependencies and build output
+/node_modules
+/.next/
+/out/
+/build
+/coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Generated Prisma client (pnpm install regenerates it)
+/lib/generated/
+
+# Stand-in for Vercel Blob in local development
+/.local-blob/
+
+# Local tool settings
+.vercel
+.claude/settings.local.json
+.DS_Store
