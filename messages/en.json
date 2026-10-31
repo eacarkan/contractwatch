@@ -1,0 +1,18 @@
+{
+  "Demo": {
+    "banner": "Demonstration data — not a live contract."
+  },
+  "Nav": {
+    "contracts": "Contracts"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "body": "This address does not match a page in ContractWatch.",
+    "back": "Go to contracts"
+  },
+  "Error": {
+    "title": "This page could not load",
+    "body": "ContractWatch could not reach its database or file store. Try again in a moment.",
+    "retry": "Try again"
+  }
+}

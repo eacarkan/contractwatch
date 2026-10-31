@@ -1,0 +1,18 @@
+{
+  "Demo": {
+    "banner": "Données de démonstration — il ne s’agit pas d’un contrat en cours."
+  },
+  "Nav": {
+    "contracts": "Contrats"
+  },
+  "NotFound": {
+    "title": "Page introuvable",
+    "body": "Cette adresse ne correspond à aucune page de ContractWatch.",
+    "back": "Aller aux contrats"
+  },
+  "Error": {
+    "title": "Cette page n’a pas pu se charger",
+    "body": "ContractWatch n’a pas pu joindre sa base de données ou son stockage de fichiers. Réessayez dans un instant.",
+    "retry": "Réessayer"
+  }
+}
