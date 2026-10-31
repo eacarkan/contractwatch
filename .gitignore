@@ -33,5 +33,5 @@ next-env.d.ts
 
 # Local tool settings
 .vercel
-.claude/settings.local.json
+.claude/
 .DS_Store

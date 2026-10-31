@@ -1,0 +1,9 @@
+.next
+node_modules
+coverage
+pnpm-lock.yaml
+lib/generated
+prisma/migrations
+raw
+.local-blob
+*.md
