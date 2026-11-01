@@ -5,6 +5,9 @@ const envSchema = z
     DATABASE_URL: z.url(),
     DATABASE_URL_UNPOOLED: z.url().optional(),
     BLOB_STORE_ID: z.string().min(1).optional(),
+    LLM_BASE_URL: z.url().optional(),
+    LLM_API_KEY: z.string().min(1).optional(),
+    LLM_MODEL: z.string().min(1).optional(),
     VERCEL: z.string().optional(),
   })
   .refine((env) => !env.VERCEL || env.BLOB_STORE_ID, {

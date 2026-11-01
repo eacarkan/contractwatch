@@ -13,6 +13,13 @@ describe("parseEnv", () => {
     expect(() => parseEnv({})).toThrow(/DATABASE_URL[\s\S]*\.env\.example/);
   });
 
+  it("treats the model service as optional, and checks its address", () => {
+    expect(parseEnv({ DATABASE_URL }).LLM_MODEL).toBeUndefined();
+    expect(() => parseEnv({ DATABASE_URL, LLM_BASE_URL: "not a url" })).toThrow(
+      /LLM_BASE_URL/,
+    );
+  });
+
   it("requires the Blob store on Vercel", () => {
     expect(() => parseEnv({ DATABASE_URL, VERCEL: "1" })).toThrow(
       /BLOB_STORE_ID/,
