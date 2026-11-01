@@ -4,12 +4,12 @@ const envSchema = z
   .object({
     DATABASE_URL: z.url(),
     DATABASE_URL_UNPOOLED: z.url().optional(),
-    BLOB_READ_WRITE_TOKEN: z.string().min(1).optional(),
+    BLOB_STORE_ID: z.string().min(1).optional(),
     VERCEL: z.string().optional(),
   })
-  .refine((env) => !env.VERCEL || env.BLOB_READ_WRITE_TOKEN, {
-    path: ["BLOB_READ_WRITE_TOKEN"],
-    message: "is required on Vercel, because it issues client upload tokens",
+  .refine((env) => !env.VERCEL || env.BLOB_STORE_ID, {
+    path: ["BLOB_STORE_ID"],
+    message: "is required on Vercel, because it names the private file store",
   });
 
 export type Env = z.infer<typeof envSchema>;

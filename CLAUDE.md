@@ -27,7 +27,7 @@ Next.js 16 (App Router, TypeScript strict), Tailwind 4, shadcn/ui, next-intl wit
 
 `prisma/schema.prisma` is the single source of truth. Migrations are generated, never hand-written. No pgvector and no database triggers.
 
-Local development runs offline: Postgres in Docker, and the gitignored `.local-blob/` folder stands in for Vercel Blob when `BLOB_READ_WRITE_TOKEN` is unset. Deployed environments use Neon and Vercel Blob.
+Local development runs offline: Postgres in Docker, and the gitignored `.local-blob/` folder stands in for Vercel Blob when `BLOB_STORE_ID` is unset. Deployed environments use Neon and Vercel Blob.
 
 `clause_ref` format: `Art. 14.3` for articles, `20.1` for clauses. Gold-set labels must use the same format.
 

@@ -10,11 +10,11 @@ import { getEnv } from "@/lib/env";
 const LOCAL_ROOT = join(process.cwd(), ".local-blob");
 
 /**
- * Local development runs offline: with no Blob token, uploads go to a gitignored
- * folder. lib/env.ts requires the token on Vercel, so the folder is never used there.
+ * Local development runs offline: with no Blob store, uploads go to a gitignored
+ * folder. lib/env.ts requires the store on Vercel, so the folder is never used there.
  */
 export function usesVercelBlob(): boolean {
-  return Boolean(getEnv().BLOB_READ_WRITE_TOKEN);
+  return Boolean(getEnv().BLOB_STORE_ID);
 }
 
 /** Callers must pass a path already checked by parseBlobPath. */

@@ -1,4 +1,8 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import {
+  handleUploadPresigned,
+  type HandleUploadPresignedBody,
+} from "@vercel/blob/client";
 import { NextResponse } from "next/server";
 
 import { prisma } from "@/lib/db";
@@ -11,18 +15,18 @@ import {
 const TOKEN_LIFETIME_MS = 10 * 60 * 1000;
 
 /**
- * Issues the short-lived token that lets the browser write straight to Vercel
- * Blob, so files bypass the 4.5 MB limit on function requests. The browser then
- * calls the documents route itself, so no upload webhook is needed.
+ * Issues the short-lived presigned URL that lets the browser write straight to
+ * Vercel Blob, so files bypass the 4.5 MB limit on function requests. The browser
+ * then calls the documents route itself, so no upload webhook is needed.
  */
 export async function POST(request: Request) {
-  const body = (await request.json()) as HandleUploadBody;
+  const body = (await request.json()) as HandleUploadPresignedBody;
 
   try {
-    const response = await handleUpload({
+    const response = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async (pathname) => {
+      getSignedToken: async (pathname) => {
         const blob = parseBlobPath(pathname);
         if (!blob) throw new Error("Invalid upload path.");
 
@@ -32,11 +36,18 @@ export async function POST(request: Request) {
         });
         if (!contract) throw new Error("Unknown contract.");
 
-        return {
+        const limits = {
           allowedContentTypes: Object.values(CONTENT_TYPES),
           maximumSizeInBytes: MAX_UPLOAD_BYTES,
           validUntil: Date.now() + TOKEN_LIFETIME_MS,
-          addRandomSuffix: false,
+        };
+        return {
+          token: await issueSignedToken({
+            ...limits,
+            pathname,
+            operations: ["put"],
+          }),
+          urlOptions: { ...limits, addRandomSuffix: false },
         };
       },
     });

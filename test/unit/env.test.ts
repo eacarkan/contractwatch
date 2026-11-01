@@ -13,12 +13,12 @@ describe("parseEnv", () => {
     expect(() => parseEnv({})).toThrow(/DATABASE_URL[\s\S]*\.env\.example/);
   });
 
-  it("requires the Blob token on Vercel", () => {
+  it("requires the Blob store on Vercel", () => {
     expect(() => parseEnv({ DATABASE_URL, VERCEL: "1" })).toThrow(
-      /BLOB_READ_WRITE_TOKEN/,
+      /BLOB_STORE_ID/,
     );
     expect(() =>
-      parseEnv({ DATABASE_URL, VERCEL: "1", BLOB_READ_WRITE_TOKEN: "token" }),
+      parseEnv({ DATABASE_URL, VERCEL: "1", BLOB_STORE_ID: "store_id" }),
     ).not.toThrow();
   });
 });

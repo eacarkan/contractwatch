@@ -1,6 +1,6 @@
 "use client";
 
-import { upload } from "@vercel/blob/client";
+import { uploadPresigned } from "@vercel/blob/client";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
@@ -38,7 +38,7 @@ async function writeToStorage(
   extension: UploadExtension,
 ) {
   if (storage === "blob") {
-    await upload(pathname, file, {
+    await uploadPresigned(pathname, file, {
       access: "private",
       handleUploadUrl: "/api/blob/upload",
       contentType: CONTENT_TYPES[extension],

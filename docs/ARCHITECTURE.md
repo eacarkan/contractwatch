@@ -14,9 +14,9 @@ correspondence entry → suggested links → user confirms → deadline status  
 
 ## Upload and storage
 
-The browser writes each file straight to a private Vercel Blob store, using a short-lived token from `/api/blob/upload`, so files are not limited by the 4.5 MB cap on function requests. The app sets its own 50 MB cap. The browser then posts the file's path to `/api/contracts/[id]/documents`, which reads the file back, extracts its text, splits it and saves the clauses in one transaction.
+The browser writes each file straight to a private Vercel Blob store, using a short-lived presigned URL from `/api/blob/upload`, so files are not limited by the 4.5 MB cap on function requests. The app sets its own 50 MB cap. The browser then posts the file's path to `/api/contracts/[id]/documents`, which reads the file back, extracts its text, splits it and saves the clauses in one transaction.
 
-Paths are checked against one strict pattern, so a client cannot name any other file. With no Blob token set, as in local development, a gitignored folder stands in for the store.
+Paths are checked against one strict pattern, so a client cannot name any other file. With no Blob store set, as in local development, a gitignored folder stands in for the store.
 
 ## Text extraction
 
