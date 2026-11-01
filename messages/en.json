@@ -56,7 +56,12 @@
       "type": "Form of contract",
       "language": "Contract language",
       "submit": "Create contract",
-      "submitting": "Creating contract…"
+      "submitting": "Creating contract…",
+      "employer": "Employer (optional)",
+      "contractor": "Contractor (optional)",
+      "engineer": "Engineer (optional)",
+      "commencement": "Commencement date (optional)",
+      "timeForCompletion": "Time for completion in days (optional)"
     },
     "errors": {
       "name": "Enter a contract name of up to 200 characters.",

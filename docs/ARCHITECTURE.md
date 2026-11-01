@@ -1,16 +1,14 @@
 # Architecture
 
-Skeleton. Sections marked "planned" describe work that is not built yet.
-
 ## Pipeline
 
 ```
 upload → text extraction → clause segmentation                                       built
   → batches of up to 6 clauses → model, tool call → zod validation → obligations (pending)   built
-  → human review (confirmed / edited / rejected, with a revision row)                         built
+  → review on screen or by an outside reviewer's file (confirmed / edited / rejected, revision row)  built
   → register with filters and CSV/XLSX export                                                 built
-  → events, deadlines, calendar                                                               planned
-correspondence entry → suggested links → user confirms → deadline status                      planned
+  → events, deadlines, calendar                                                               built
+correspondence entry → suggested links → user confirms → deadline status                      built
 ```
 
 ## Upload and storage
@@ -76,23 +74,44 @@ The review screen shows one waiting obligation at a time beside its source claus
 
 The register lists confirmed and edited obligations. Exports carry the demonstration wording and neutralise spreadsheet formulas, because their text comes from uploaded documents and a model.
 
-## Deadline rules (planned)
+## Outside review
+
+The review screen can hand the waiting obligations to an outside reviewer, such as ChatGPT, as one JSON file holding the instructions, each item and its clause text. The file the reviewer returns passes a zod schema, then each decision goes through the same code as the review screen, with its revision row and the reviewer's name on the obligation. A reviewer cannot change a clause reference or a source quote. Unknown ids, items already decided and edits that do not validate are skipped and counted. The file holds clause text, so it is for public or anonymised sources only.
+
+The specimen contract is synthetic, so its author wrote an answer key, and `pnpm review:key` reviews it from that key.
+
+## Deadline rules
+
+`lib/deadline.ts` holds the rules as pure functions over UTC dates, with no database access.
 
 | Rule | Approach |
 |---|---|
-| Day of receipt not counted | Add the period to the event date; the rule text says so |
+| Day of the event not counted | Add the period to the event date, so 21 days from the 1st falls on the 22nd |
 | Working days | Skip Saturdays, Sundays and the contract's holidays |
-| Months | Add months, clamping to the month end |
-| Before a date | Count backwards for submissions due before an event |
-| Periodic | Generate occurrences to the end of the time for completion, capped at 60 |
-| Recomputation | Regenerate deadlines in one transaction, keeping `MET` where the linked letter still precedes the new date |
+| Months | Day to same day, ending on the last day of a shorter month |
+| Before a date | Count backwards; never moved later |
+| Non-working last day | For CCAG-Travaux (art. 38.3), a period counted forwards runs on to the next working day. Other forms stay as computed |
+| Periodic | Occurrences to the end of the time for completion, capped at 60 |
+| Recomputation | In one transaction, rows are matched by occurrence and updated, so links survive. `MET` stands only while its letter still precedes the new date, and a status set by hand is kept |
+
+The rule is stored as a code, such as `after:21:CALENDAR_DAYS:rolled`, and each screen words it in its own language. Overdue is worked out when shown, so it cannot go stale. An event lists the obligations it triggers, chosen by the user. Holidays are entered by hand for each contract, with no import.
+
+## Correspondence
+
+A letter is logged by hand and linked to an obligation or one of its due dates. An outgoing letter from the bound party, sent by the due date and linked as satisfying it, marks the deadline `MET`; removing the link or the letter reopens it. Where a model service is set, the screen can ask for suggested links (`corr-v1`). Each call is an `ExtractionRun`, the code holds the sender rule whatever the model says, and nothing is linked until the user confirms. The public site has no model service, so links are made by hand there.
+
+## Seed and demonstration gate
+
+`pnpm snapshot` copies local results for public or synthetic sources to `data/seed`, and `pnpm db:seed` loads them. Deployment runs the seed, which is how results made on the owner's computer reach the site. It replaces only the demonstration contracts, and dates its events from the day it runs, so the calendar always has something due.
+
+When `DEMO_PASSWORD` is set, `proxy.ts` sends visitors to `/enter` until they hold a signed cookie, and answers API requests with 401. It is a demonstration gate, not production authentication.
 
 ## Evaluation method
 
-`scripts/eval.ts` runs extraction for the current prompt version and compares the result with a hand-labelled gold set. It reports recall and precision (matching on clause reference, obligor and category), exact period match, and time-bar flag accuracy. Only labelled clauses that were actually extracted are scored, and the script says how many that is.
+`scripts/eval.ts` runs extraction for the current prompt version and compares the result with a labelled gold set. It reports recall and precision (matching on clause reference, obligor and category), exact period match, and time-bar flag accuracy. Only labelled clauses that were actually extracted are scored, and the script says how many that is.
 
 Labelled clauses split into development and held-out sets, and prompt work uses only the development set, because a score on clauses a prompt was tuned against flatters it. The README will quote only what this script measures, naming the model. `test/gold/README.md` sets out the format.
 
 ## Security posture
 
-Database and model access happen only in server code. Every model response passes a zod schema before any write. During development the deployment sits behind Vercel Authentication; a small app-level demo gate is planned for the shared link. It is a demo gate, not production authentication.
+Database and model access happen only in server code. Every model response passes a zod schema before any write. The shared link can sit behind the demonstration gate above.

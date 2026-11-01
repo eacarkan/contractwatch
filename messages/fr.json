@@ -56,7 +56,12 @@
       "type": "Type de contrat",
       "language": "Langue du contrat",
       "submit": "Créer le contrat",
-      "submitting": "Création du contrat…"
+      "submitting": "Création du contrat…",
+      "employer": "Maître d'ouvrage (facultatif)",
+      "contractor": "Entrepreneur (facultatif)",
+      "engineer": "Maître d'œuvre (facultatif)",
+      "commencement": "Date de démarrage (facultatif)",
+      "timeForCompletion": "Délai d'exécution en jours (facultatif)"
     },
     "errors": {
       "name": "Saisissez un nom de contrat de 200 caractères au maximum.",

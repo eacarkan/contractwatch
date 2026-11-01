@@ -72,6 +72,30 @@ export function NewContractForm() {
         </NativeSelect>
       </div>
 
+      {(["employer", "contractor", "engineer"] as const).map((party) => (
+        <div key={party} className="grid gap-1.5">
+          <Label htmlFor={party}>{t(`form.${party}`)}</Label>
+          <Input id={party} name={party} maxLength={200} />
+        </div>
+      ))}
+
+      <div className="grid gap-1.5">
+        <Label htmlFor="commencementDate">{t("form.commencement")}</Label>
+        <Input id="commencementDate" name="commencementDate" type="date" />
+      </div>
+
+      <div className="grid gap-1.5">
+        <Label htmlFor="timeForCompletionDays">
+          {t("form.timeForCompletion")}
+        </Label>
+        <Input
+          id="timeForCompletionDays"
+          name="timeForCompletionDays"
+          type="number"
+          min={1}
+        />
+      </div>
+
       {state.error && (
         <p role="alert" className="text-destructive text-sm">
           {t(`errors.${state.error}`)}
