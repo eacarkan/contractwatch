@@ -50,6 +50,7 @@ export type FallbackReason =
 export const PREAMBLE_REF = "preamble";
 
 const HEADING_CAP = 120;
+const BARE_HEADING_CAP = 60;
 const FALLBACK_MIN_CLAUSES = 10;
 const FALLBACK_MAX_WORDS = 3000;
 const MAX_TOP_LEVEL_NUMBER = 200;
@@ -216,7 +217,10 @@ function longestNumberedChain(
   return chain;
 }
 
-/** A contents page without dot leaders: consecutive matches ending in page numbers. */
+/**
+ * A contents page without dot leaders: consecutive matches that end in page
+ * numbers, or that all come round again later in the document.
+ */
 function findContentsBlocks(candidates: Candidate[]): Set<Candidate> {
   const contents = new Set<Candidate>();
   let runStart = 0;
@@ -226,6 +230,13 @@ function findContentsBlocks(candidates: Candidate[]): Set<Candidate> {
       candidates[index].lineIndex === candidates[index - 1].lineIndex + 1;
     if (adjacent) continue;
     const run = candidates.slice(runStart, index);
+    const repeatedLater = run.filter((candidate) =>
+      candidates.some(
+        (other) =>
+          other.lineIndex > candidate.lineIndex &&
+          comparePaths(other.path, candidate.path) === 0,
+      ),
+    );
     const withPageNumbers = run.filter((candidate) =>
       TRAILING_PAGE_NUMBER.test(candidate.rest),
     );
@@ -233,6 +244,9 @@ function findContentsBlocks(candidates: Candidate[]): Set<Candidate> {
     // that end in a page number are treated as contents.
     if (run.length >= 5 && withPageNumbers.length >= run.length * 0.8) {
       withPageNumbers.forEach((candidate) => contents.add(candidate));
+    }
+    if (repeatedLater.length >= 5) {
+      repeatedLater.forEach((candidate) => contents.add(candidate));
     }
     runStart = index;
   }
@@ -407,8 +421,22 @@ export function splitClauses(sourcePages: SourcePage[]): SplitResult {
     const page = lines[candidate.lineIndex].page;
 
     if (candidate.rest) {
-      if (looksLikeHeading(candidate.rest, lines[bodyStart]?.text)) {
+      const next = bodyStart < end ? lines[bodyStart].text : undefined;
+      // A long unprefixed first line is a sentence: sub-clause headings are short.
+      const canHead =
+        candidate.kind !== "bare" || candidate.rest.length <= BARE_HEADING_CAP;
+      const wrapped = `${candidate.rest} ${next}`;
+      if (canHead && looksLikeHeading(candidate.rest, lines[bodyStart]?.text)) {
         heading = candidate.rest;
+      } else if (
+        candidate.kind !== "bare" &&
+        next &&
+        /^\p{Ll}/u.test(next) &&
+        looksLikeHeading(wrapped, lines[bodyStart + 1]?.text)
+      ) {
+        // "Article 14 : Variation dans la masse" with the rest on the next line.
+        heading = wrapped;
+        bodyStart += 1;
       } else {
         bodyLines.push({ text: candidate.rest, page });
       }

@@ -233,6 +233,41 @@ describe("contents pages", () => {
     expect(refs(pages)).toEqual(["Art. 1", "Art. 2", "Art. 3"]);
   });
 
+  it("skips a contents block with no markers when its articles come round again", () => {
+    const pages = onePage(
+      "Article 1 : Objet",
+      "Article 2 : Délais",
+      "Article 3 : Paiements",
+      "Article 4 : Réception",
+      "Article 5 : Litiges",
+      "Article 1 : Objet",
+      "Le présent cahier régit les travaux.",
+      "Article 2 : Délais",
+      "Le délai court à compter de la notification.",
+      "Article 3 : Paiements",
+      "Les paiements sont faits sous 60 jours.",
+      "Article 4 : Réception",
+      "La réception est prononcée par écrit.",
+      "Article 5 : Litiges",
+      "Les litiges sont réglés à l'amiable.",
+    );
+    const result = splitClauses(pages);
+
+    expect(refs(pages)).toEqual([
+      "Art. 1",
+      "Art. 2",
+      "Art. 3",
+      "Art. 4",
+      "Art. 5",
+    ]);
+    expect(clause(pages, "Art. 1").body).toBe(
+      "Le présent cahier régit les travaux.",
+    );
+    expect(
+      result.rejected.filter((line) => line.reason === "contents-line"),
+    ).toHaveLength(5);
+  });
+
   it("prefers the body over a contents page with no markers at all", () => {
     const pages = onePage(
       "Article 1 : Objet",
@@ -269,6 +304,45 @@ describe("headings and bodies", () => {
     expect(found.heading).toBeNull();
     expect(found.body).toBe(
       "Le titulaire notifie au maître d'œuvre, dans un délai de\n15 jours, tout événement ouvrant droit à prolongation.",
+    );
+  });
+
+  it("joins an article heading wrapped onto a second line", () => {
+    const pages = onePage(
+      "Article 14 : Variation dans la masse des travaux et dans la nature des",
+      "ouvrages du marché",
+      "14.1 Le titulaire est informé par écrit.",
+    );
+    const found = clause(pages, "Art. 14");
+
+    expect(found.heading).toBe(
+      "Variation dans la masse des travaux et dans la nature des ouvrages du marché",
+    );
+    expect(found.body).toBe("");
+  });
+
+  it("does not join a wrapped sentence into an article heading", () => {
+    const pages = onePage(
+      "Article 14 : Le titulaire notifie au maître d'œuvre",
+      "tout événement ouvrant droit à prolongation.",
+    );
+    const found = clause(pages, "Art. 14");
+
+    expect(found.heading).toBeNull();
+    expect(found.body).toContain("Le titulaire notifie");
+  });
+
+  it("keeps a long first line of a sub-clause in the body", () => {
+    const pages = onePage(
+      "Article 14 : Ordres",
+      "14.1 La décision prise en application du premier alinéa du présent",
+      "Article peut être contestée par écrit.",
+    );
+    const found = clause(pages, "14.1");
+
+    expect(found.heading).toBeNull();
+    expect(found.body).toBe(
+      "La décision prise en application du premier alinéa du présent\nArticle peut être contestée par écrit.",
     );
   });
 
