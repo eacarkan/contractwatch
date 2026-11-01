@@ -22,8 +22,9 @@ Paths are checked against one strict pattern, so a client cannot name any other 
 
 - Digital PDF: `pdf-parse`, page by page.
 - DOCX: `mammoth`. Word's automatic numbers are not in the extracted text, so the app warns when a file uses them.
-- Plain text: for OCR output and anonymised files, with form feeds marking page breaks.
-- Scanned PDF: detected by near-zero text, marked `NEEDS_OCR`, and pointed to the offline `scripts/ocr.py`.
+- Plain text: for offline OCR output and anonymised files, with form feeds marking page breaks.
+- Scanned PDF: detected by near-zero text and marked `NEEDS_OCR`. The browser then renders each page with `pdfjs-dist`, reads it with `tesseract.js` (`fra+eng`) and posts the text to `/api/contracts/[id]/documents/[documentId]/ocr`, which splits it like any other source and sets `isScanned`. The uploader can also force this route for a scan with a garbled text layer. If OCR does not finish, the document stays `NEEDS_OCR` until the file is uploaded again.
+- OCR offline: `scripts/ocr.py` writes a text file with the same page breaks, uploaded as an `OCR_TEXT` document.
 
 ## Clause segmentation
 

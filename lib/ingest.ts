@@ -6,6 +6,7 @@ import type { DocKind } from "@/lib/generated/prisma/enums";
 import {
   extractText,
   hasNoText,
+  type ExtractedText,
   type ExtractionWarning,
 } from "@/lib/text/extract";
 import {
@@ -18,6 +19,7 @@ import { parseBlobPath } from "@/lib/upload-rules";
 export type IngestResult =
   | {
       ok: true;
+      documentId: string;
       status: "EXTRACTED" | "NEEDS_OCR";
       clauses: number;
       warnings: ExtractionWarning[];
@@ -31,6 +33,8 @@ export async function ingestDocument(input: {
   pathname: string;
   filename: string;
   kind: DocKind;
+  /** For a PDF whose text layer is unreliable, such as a scanner's own poor one. */
+  forceOcr?: boolean;
 }): Promise<IngestResult> {
   const blob = parseBlobPath(input.pathname);
   const buffer = blob && (await readBlob(input.pathname));
@@ -44,16 +48,11 @@ export async function ingestDocument(input: {
       storagePath: input.pathname,
     },
   });
-  const markFailed = () =>
-    prisma.document.update({
-      where: { id: document.id },
-      data: { textStatus: "FAILED" },
-    });
 
   try {
     const extracted = await extractText(buffer, blob.extension);
 
-    if (extracted.isScanned) {
+    if (extracted.isScanned || (input.forceOcr && blob.extension === "pdf")) {
       await prisma.document.update({
         where: { id: document.id },
         data: {
@@ -64,6 +63,7 @@ export async function ingestDocument(input: {
       });
       return {
         ok: true,
+        documentId: document.id,
         status: "NEEDS_OCR",
         clauses: 0,
         warnings: [],
@@ -71,40 +71,71 @@ export async function ingestDocument(input: {
       };
     }
 
-    if (extracted.pages.every((page) => hasNoText(page.text))) {
-      await markFailed();
-      return { ok: false, code: "emptyText" };
-    }
-
-    const { clauses, fallbackReasons } = splitClauses(extracted.pages);
-
-    await prisma.$transaction([
-      prisma.clause.createMany({
-        data: clauses.map((clause) => ({
-          ...clause,
-          documentId: document.id,
-        })),
-      }),
-      prisma.document.update({
-        where: { id: document.id },
-        data: {
-          textStatus: "EXTRACTED",
-          isScanned: false,
-          pageCount: extracted.pageCount,
-        },
-      }),
-    ]);
-
-    return {
-      ok: true,
-      status: "EXTRACTED",
-      clauses: countNumberedClauses(clauses),
-      warnings: extracted.warnings,
-      fallbackReasons,
-    };
+    return await saveClauses(document.id, extracted, false);
   } catch (error) {
     console.error(`Could not process document ${document.id}`, error);
-    await markFailed();
+    await markFailed(document.id);
     return { ok: false, code: "extractionFailed" };
   }
+}
+
+/**
+ * Receives the text the browser read from a scanned PDF. Form feeds mark page
+ * breaks, as in any plain text source.
+ */
+export async function ingestOcrText(
+  documentId: string,
+  text: string,
+): Promise<IngestResult> {
+  const extracted = await extractText(Buffer.from(text, "utf8"), "txt");
+  try {
+    return await saveClauses(documentId, extracted, true);
+  } catch (error) {
+    console.error(`Could not save OCR text for ${documentId}`, error);
+    await markFailed(documentId);
+    return { ok: false, code: "extractionFailed" };
+  }
+}
+
+function markFailed(documentId: string) {
+  return prisma.document.update({
+    where: { id: documentId },
+    data: { textStatus: "FAILED" },
+  });
+}
+
+async function saveClauses(
+  documentId: string,
+  extracted: ExtractedText,
+  isScanned: boolean,
+): Promise<IngestResult> {
+  if (extracted.pages.every((page) => hasNoText(page.text))) {
+    await markFailed(documentId);
+    return { ok: false, code: "emptyText" };
+  }
+
+  const { clauses, fallbackReasons } = splitClauses(extracted.pages);
+
+  await prisma.$transaction([
+    prisma.clause.createMany({
+      data: clauses.map((clause) => ({ ...clause, documentId })),
+    }),
+    prisma.document.update({
+      where: { id: documentId },
+      data: {
+        textStatus: "EXTRACTED",
+        isScanned,
+        pageCount: extracted.pageCount,
+      },
+    }),
+  ]);
+
+  return {
+    ok: true,
+    documentId,
+    status: "EXTRACTED",
+    clauses: countNumberedClauses(clauses),
+    warnings: extracted.warnings,
+    fallbackReasons,
+  };
 }

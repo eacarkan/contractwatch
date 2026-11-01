@@ -23,7 +23,7 @@ Gate, judged by the owner and never marked passed by Claude: CI green; CCAG gene
 
 ## Stack
 
-Next.js 16 (App Router, TypeScript strict), Tailwind 4, shadcn/ui, next-intl with `/[locale]` routes, Prisma 7 with `@prisma/adapter-pg`, Vercel Blob (private store, client uploads, 50 MB cap), `pdf-parse`, `mammoth`, Vitest, pnpm, Node 24. Python and Tesseract for the offline `scripts/ocr.py`.
+Next.js 16 (App Router, TypeScript strict), Tailwind 4, shadcn/ui, next-intl with `/[locale]` routes, Prisma 7 with `@prisma/adapter-pg`, Vercel Blob (private store, client uploads, 50 MB cap), `pdf-parse`, `mammoth`, Vitest, pnpm, Node 24. `pdfjs-dist` and `tesseract.js` for OCR in the browser. Python and Tesseract for the offline `scripts/ocr.py`.
 
 `prisma/schema.prisma` is the single source of truth. Migrations are generated, never hand-written. No pgvector and no database triggers.
 

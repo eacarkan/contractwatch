@@ -70,11 +70,16 @@
       "kind": "Document type",
       "file": "File",
       "hint": "PDF, DOCX or text, up to 50 MB.",
+      "forceOcr": "Read this PDF with OCR",
+      "forceOcrHint": "Scanned PDFs are detected and read automatically, which can take several seconds a page. Tick this for a scan whose existing text is garbled.",
       "submit": "Upload document",
       "uploading": "Uploading file…",
       "processing": "Extracting text and splitting clauses…",
+      "ocrLoading": "Preparing OCR…",
+      "ocrPage": "Reading page {page} of {pages} with OCR…",
+      "ocrSaving": "Splitting the OCR text into clauses…",
       "done": "{filename} uploaded. {clauses, plural, one {# clause} other {# clauses}} found.",
-      "doneNeedsOcr": "{filename} uploaded. It has no text layer, so it needs OCR."
+      "busy": "Working…"
     },
     "errors": {
       "chooseFile": "Choose a file to upload.",
@@ -85,10 +90,12 @@
       "contractNotFound": "This contract no longer exists.",
       "blobNotFound": "The uploaded file could not be found. Upload it again.",
       "emptyText": "This file contains no text.",
-      "extractionFailed": "The text could not be read. Check that the file opens normally and has no password."
+      "extractionFailed": "The text could not be read. Check that the file opens normally and has no password.",
+      "ocrFailed": "OCR could not read this file. It stays marked as needing OCR. Upload it again to retry.",
+      "documentNotFound": "This document no longer needs OCR, or no longer exists. Reload the page."
     },
     "warnings": {
-      "pagesWithoutText": "These pages have no text layer and were skipped: {pages}. They may be scanned.",
+      "pagesWithoutText": "These pages have no text layer and were skipped: {pages}. They may be scanned. To read them, upload the file again with OCR ticked.",
       "docxAutoNumbering": "{paragraphs, plural, one {# paragraph uses} other {# paragraphs use}} Word’s automatic numbering, so those numbers are not in the text. Export the file to PDF and upload that instead."
     },
     "list": {
@@ -96,7 +103,7 @@
       "empty": "No documents yet. Upload the general conditions first.",
       "summary": "{pages, plural, =0 {} one {# page, } other {# pages, }}{clauses, plural, one {# clause} other {# clauses}}"
     },
-    "needsOcr": "No text layer was found. Run scripts/ocr.py on this file on your own machine, then upload the text file it writes as an OCR text document.",
+    "needsOcr": "OCR did not finish for this file. Upload it again to retry.",
     "failed": "The text could not be read from this file. Upload it again, or check that it opens normally.",
     "fallback": {
       "tooFewClauses": "{clauses, plural, =0 {No clauses were} one {Only # clause was} other {Only # clauses were}} found, so this split may be incomplete.",
@@ -111,6 +118,7 @@
         "pages": "Pages",
         "words": "Words"
       }
-    }
+    },
+    "readByOcr": "This text was read by OCR. Check dates, amounts and clause numbers against the scan."
   }
 }

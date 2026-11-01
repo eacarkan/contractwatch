@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/native-select";
 import { DocKind } from "@/lib/generated/prisma/enums";
 import type { IngestResult } from "@/lib/ingest";
+import { readScannedPdf } from "@/lib/ocr/read-scanned-pdf";
 import {
   blobPathFor,
   CONTENT_TYPES,
@@ -22,7 +23,9 @@ import {
   type UploadExtension,
 } from "@/lib/upload-rules";
 
-type Step = "idle" | "uploading" | "processing";
+type Step =
+  | { name: "idle" | "uploading" | "processing" | "ocrLoading" | "ocrSaving" }
+  | { name: "ocrPage"; page: number; pages: number };
 type Outcome =
   | { type: "error"; code: string }
   | {
@@ -63,7 +66,7 @@ export function UploadForm({
   const t = useTranslations("Documents");
   const kinds = useTranslations("DocKind");
   const router = useRouter();
-  const [step, setStep] = useState<Step>("idle");
+  const [step, setStep] = useState<Step>({ name: "idle" });
   const [outcome, setOutcome] = useState<Outcome | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -90,16 +93,16 @@ export function UploadForm({
     const pathname = blobPathFor(contractId, crypto.randomUUID(), extension);
 
     try {
-      setStep("uploading");
+      setStep({ name: "uploading" });
       await writeToStorage(storage, pathname, file, extension);
     } catch (error) {
       console.error(error);
-      setStep("idle");
+      setStep({ name: "idle" });
       setOutcome({ type: "error", code: "uploadFailed" });
       return;
     }
 
-    setStep("processing");
+    setStep({ name: "processing" });
     const response = await fetch(`/api/contracts/${contractId}/documents`, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -107,12 +110,40 @@ export function UploadForm({
         pathname,
         filename: file.name,
         kind: data.get("kind"),
+        forceOcr: data.get("forceOcr") === "on",
       }),
     });
-    const result = await response.json().catch(() => null);
-    setStep("idle");
+    let result = await response.json().catch(() => null);
+    let ok = response.ok;
 
-    if (!response.ok) {
+    if (ok && result?.status === "NEEDS_OCR") {
+      try {
+        setStep({ name: "ocrLoading" });
+        const text = await readScannedPdf(file, (page, pages) =>
+          setStep({ name: "ocrPage", page, pages }),
+        );
+
+        setStep({ name: "ocrSaving" });
+        const ocrResponse = await fetch(
+          `/api/contracts/${contractId}/documents/${result.documentId}/ocr`,
+          {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ text }),
+          },
+        );
+        result = await ocrResponse.json().catch(() => null);
+        ok = ocrResponse.ok;
+      } catch (error) {
+        console.error(error);
+        ok = false;
+        result = { error: "ocrFailed" };
+      }
+    }
+
+    setStep({ name: "idle" });
+
+    if (!ok) {
       setOutcome({ type: "error", code: result?.error ?? "extractionFailed" });
     } else {
       setOutcome({ type: "done", filename: file.name, result });
@@ -121,7 +152,7 @@ export function UploadForm({
     router.refresh();
   }
 
-  const busy = step !== "idle";
+  const busy = step.name !== "idle";
 
   return (
     <form
@@ -162,7 +193,7 @@ export function UploadForm({
         </div>
 
         <Button type="submit" disabled={busy}>
-          {t(`upload.${busy ? step : "submit"}`)}
+          {busy ? t("upload.busy") : t("upload.submit")}
         </Button>
       </div>
 
@@ -170,7 +201,30 @@ export function UploadForm({
         {t("upload.hint")}
       </p>
 
+      <div className="grid gap-1">
+        <div className="flex items-center gap-2">
+          <input
+            id="forceOcr"
+            name="forceOcr"
+            type="checkbox"
+            aria-describedby="force-ocr-hint"
+            className="size-4"
+          />
+          <Label htmlFor="forceOcr">{t("upload.forceOcr")}</Label>
+        </div>
+        <p id="force-ocr-hint" className="text-muted-foreground text-sm">
+          {t("upload.forceOcrHint")}
+        </p>
+      </div>
+
       <div aria-live="polite" className="empty:hidden">
+        {step.name === "ocrPage" ? (
+          <p className="text-sm">
+            {t("upload.ocrPage", { page: step.page, pages: step.pages })}
+          </p>
+        ) : (
+          busy && <p className="text-sm">{t(`upload.${step.name}`)}</p>
+        )}
         {outcome?.type === "error" && (
           <p role="alert" className="text-destructive text-sm">
             {t.has(`errors.${outcome.code}`)
@@ -181,12 +235,10 @@ export function UploadForm({
         {outcome?.type === "done" && (
           <div className="grid gap-1 text-sm">
             <p>
-              {outcome.result.status === "NEEDS_OCR"
-                ? t("upload.doneNeedsOcr", { filename: outcome.filename })
-                : t("upload.done", {
-                    filename: outcome.filename,
-                    clauses: outcome.result.clauses,
-                  })}
+              {t("upload.done", {
+                filename: outcome.filename,
+                clauses: outcome.result.clauses,
+              })}
             </p>
             {outcome.result.warnings.map((warning) => (
               <p key={warning.code} className="border-signal border-l-4 pl-2">

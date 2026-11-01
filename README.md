@@ -46,9 +46,13 @@ pnpm split:preview path/to/conditions.pdf --rejected
 
 ## OCR
 
-OCR is a local preprocessing step in this version, because Tesseract does not run in Vercel functions. `scripts/ocr.py` reads a scanned PDF and writes a text file, which you then upload as an OCR text document. The app detects PDFs with no text layer and points you to this step.
+Scanned PDFs are read inside the app. Upload one and the browser renders each page and reads it with Tesseract (French and English), then sends the text back to be split into clauses. It runs in the browser because Tesseract does not run in Vercel functions. PDFs with no text layer are detected automatically; for a scan with a garbled text layer, tick "Read this PDF with OCR".
 
-OCR verdict: in scope, through the offline script. On three pages of a scanned French public procurement circular, the body text read cleanly, while letterheads and stamps were misread (one date lost a digit). OCR text therefore goes through the same human review as any other source.
+Allow several seconds a page, and keep the page open until it finishes. The engine and language data download on first use, from a public CDN, so the first run needs an internet connection.
+
+`scripts/ocr.py` does the same job offline, for example for a long scan, and writes a text file to upload as an OCR text document.
+
+On three pages of a scanned French public procurement circular, the body text read cleanly, while letterheads and stamps were misread (one date lost a digit). OCR text therefore carries a warning on screen and goes through the same human review as any other source.
 
 ## Confidentiality
 
@@ -56,7 +60,7 @@ Real contract files never enter this repository. `scripts/anonymise.ts` replaces
 
 ## Limitations
 
-To be completed. Known so far: scanned documents need the offline OCR step, and a DOCX that uses Word's automatic numbering should be exported to PDF first, because those numbers are not in its text.
+To be completed. Known so far: OCR can misread stamps, letterheads and dates, and a DOCX that uses Word's automatic numbering should be exported to PDF first, because those numbers are not in its text.
 
 ## What this does not claim
 

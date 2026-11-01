@@ -10,6 +10,7 @@ const bodySchema = z.object({
   pathname: z.string(),
   filename: z.string().trim().min(1).max(255),
   kind: z.enum(DocKind),
+  forceOcr: z.boolean().optional(),
 });
 
 const STATUS_BY_CODE = {

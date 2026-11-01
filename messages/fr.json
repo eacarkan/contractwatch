@@ -70,11 +70,16 @@
       "kind": "Type de document",
       "file": "Fichier",
       "hint": "PDF, DOCX ou texte, 50 Mo au maximum.",
+      "forceOcr": "Lire ce PDF par OCR",
+      "forceOcrHint": "Les PDF numérisés sont détectés et lus automatiquement, ce qui peut prendre plusieurs secondes par page. Cochez cette case pour un document numérisé dont le texte existant est illisible.",
       "submit": "Téléverser le document",
       "uploading": "Téléversement du fichier…",
       "processing": "Extraction du texte et découpage des clauses…",
+      "ocrLoading": "Préparation de l’OCR…",
+      "ocrPage": "Lecture OCR de la page {page} sur {pages}…",
+      "ocrSaving": "Découpage du texte OCR en clauses…",
       "done": "{filename} téléversé. {clauses, plural, one {# clause trouvée} other {# clauses trouvées}}.",
-      "doneNeedsOcr": "{filename} téléversé. Il n’a pas de couche de texte : un OCR est nécessaire."
+      "busy": "Traitement…"
     },
     "errors": {
       "chooseFile": "Choisissez un fichier à téléverser.",
@@ -85,10 +90,12 @@
       "contractNotFound": "Ce contrat n’existe plus.",
       "blobNotFound": "Le fichier téléversé est introuvable. Téléversez-le de nouveau.",
       "emptyText": "Ce fichier ne contient aucun texte.",
-      "extractionFailed": "Le texte n’a pas pu être lu. Vérifiez que le fichier s’ouvre normalement et n’a pas de mot de passe."
+      "extractionFailed": "Le texte n’a pas pu être lu. Vérifiez que le fichier s’ouvre normalement et n’a pas de mot de passe.",
+      "ocrFailed": "L’OCR n’a pas pu lire ce fichier. Il reste signalé comme nécessitant un OCR. Téléversez-le de nouveau pour réessayer.",
+      "documentNotFound": "Ce document ne nécessite plus d’OCR, ou n’existe plus. Rechargez la page."
     },
     "warnings": {
-      "pagesWithoutText": "Ces pages n’ont pas de couche de texte et ont été ignorées : {pages}. Elles sont peut-être numérisées.",
+      "pagesWithoutText": "Ces pages n’ont pas de couche de texte et ont été ignorées : {pages}. Elles sont peut-être numérisées. Pour les lire, téléversez de nouveau le fichier en cochant l’OCR.",
       "docxAutoNumbering": "{paragraphs, plural, one {# paragraphe utilise} other {# paragraphes utilisent}} la numérotation automatique de Word : ces numéros ne figurent pas dans le texte. Exportez le fichier en PDF et téléversez ce PDF."
     },
     "list": {
@@ -96,7 +103,7 @@
       "empty": "Aucun document pour l’instant. Téléversez d’abord les conditions générales.",
       "summary": "{pages, plural, =0 {} one {# page, } other {# pages, }}{clauses, plural, one {# clause} other {# clauses}}"
     },
-    "needsOcr": "Aucune couche de texte n’a été trouvée. Exécutez scripts/ocr.py sur ce fichier sur votre ordinateur, puis téléversez le fichier texte obtenu comme document Texte OCR.",
+    "needsOcr": "L’OCR n’a pas abouti pour ce fichier. Téléversez-le de nouveau pour réessayer.",
     "failed": "Le texte de ce fichier n’a pas pu être lu. Téléversez-le de nouveau, ou vérifiez qu’il s’ouvre normalement.",
     "fallback": {
       "tooFewClauses": "{clauses, plural, =0 {Aucune clause n’a été trouvée} one {Seule # clause a été trouvée} other {Seules # clauses ont été trouvées}} : ce découpage est peut-être incomplet.",
@@ -111,6 +118,7 @@
         "pages": "Pages",
         "words": "Mots"
       }
-    }
+    },
+    "readByOcr": "Ce texte a été lu par OCR. Vérifiez les dates, les montants et les numéros de clause par rapport au document numérisé."
   }
 }

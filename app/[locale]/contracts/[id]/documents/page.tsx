@@ -126,6 +126,11 @@ export default async function DocumentsPage({
                   {t("needsOcr")}
                 </p>
               )}
+              {document.textStatus === "EXTRACTED" && document.isScanned && (
+                <p className="border-signal mt-3 border-l-4 pl-2 text-sm">
+                  {t("readByOcr")}
+                </p>
+              )}
               {document.textStatus === "FAILED" && (
                 <p className="border-destructive mt-3 border-l-4 pl-2 text-sm">
                   {t("failed")}
