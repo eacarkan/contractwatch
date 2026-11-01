@@ -72,6 +72,7 @@ export async function GET(
       fields("consequence"),
       fields("sourceQuote"),
       t("columns.status"),
+      t("columns.reviewedBy"),
       t("columns.nextDue"),
     ],
     ...rows.map((row): ExportCell[] => [
@@ -91,6 +92,7 @@ export async function GET(
       row.consequence,
       row.sourceQuote,
       statuses(row.reviewStatus),
+      row.reviewedBy ?? t("reviewedByOwner"),
       formatIsoDate(row.deadlines[0]?.dueOn),
     ]),
   ];

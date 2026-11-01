@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 import { ContractHeader } from "@/components/contract-header";
+import { OutsideReview } from "@/components/review/outside-review";
 import { ReviewCard } from "@/components/review/review-card";
 import { SourceClause } from "@/components/review/source-clause";
 import { prisma } from "@/lib/db";
@@ -107,6 +108,8 @@ export default async function ReviewPage({
           )}
         </div>
       )}
+
+      {pendingCount > 0 && <OutsideReview contractId={contract.id} />}
     </div>
   );
 }

@@ -142,6 +142,7 @@ export default async function RegisterPage({
                 <TableHead>{t("columns.period")}</TableHead>
                 <TableHead>{t("columns.timeBar")}</TableHead>
                 <TableHead>{t("columns.status")}</TableHead>
+                <TableHead>{t("columns.reviewedBy")}</TableHead>
                 <TableHead>{t("columns.nextDue")}</TableHead>
               </TableRow>
             </TableHeader>
@@ -171,6 +172,9 @@ export default async function RegisterPage({
                     {row.isTimeBar ? values("yes") : values("no")}
                   </TableCell>
                   <TableCell>{statuses(row.reviewStatus)}</TableCell>
+                  <TableCell>
+                    {row.reviewedBy ?? t("reviewedByOwner")}
+                  </TableCell>
                   <TableCell className="tabular-nums">
                     {formatIsoDate(row.deadlines[0]?.dueOn) ?? "–"}
                   </TableCell>

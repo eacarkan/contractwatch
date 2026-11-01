@@ -5,6 +5,8 @@ import { z } from "zod";
 
 import { applyReview } from "@/lib/review/apply";
 import { parseEditForm } from "@/lib/review/fields";
+import { importReviewFile, type ImportSummary } from "@/lib/review/import";
+import { IMPORT_MAX_BYTES, parseReviewFile } from "@/lib/review/package";
 
 const noteSchema = z.string().trim().max(1000).nullable();
 
@@ -40,4 +42,27 @@ export async function reviewObligation(
 
   revalidatePath("/[locale]/contracts/[id]", "layout");
   return { error: null };
+}
+
+export type ImportState = {
+  error: "invalid" | null;
+  summary: ImportSummary | null;
+};
+
+export async function importReview(
+  contractId: string,
+  _state: ImportState,
+  formData: FormData,
+): Promise<ImportState> {
+  const file = formData.get("file");
+  if (!(file instanceof File) || file.size > IMPORT_MAX_BYTES) {
+    return { error: "invalid", summary: null };
+  }
+
+  const parsed = parseReviewFile(await file.text());
+  if (!parsed.success) return { error: "invalid", summary: null };
+
+  const summary = await importReviewFile(contractId, parsed.data);
+  revalidatePath("/[locale]/contracts/[id]", "layout");
+  return { error: null, summary };
 }
