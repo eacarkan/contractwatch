@@ -3,7 +3,9 @@
  * clauses not yet extracted first, unless --no-run is given.
  *
  *   pnpm eval <documentId> [--gold test/gold/ccag.json] [--set all|dev|holdout]
- *                          [--delay-ms 7000] [--no-run]
+ *                          [--delay-ms 7000] [--no-run] [--prompt obl-v1]
+ *
+ * --prompt scores an earlier prompt's stored runs, so it implies --no-run.
  */
 import { readFile } from "node:fs/promises";
 import { parseArgs } from "node:util";
@@ -15,11 +17,8 @@ import {
   scoreExtraction,
   type GoldSubset,
 } from "@/lib/llm/eval";
-import {
-  CURRENT_PROMPT,
-  extractDocument,
-  getModelConfig,
-} from "@/lib/llm/extract";
+import { extractDocument, getModelConfig } from "@/lib/llm/extract";
+import { CURRENT_PROMPT } from "@/lib/llm/prompts";
 
 const TARGETS = {
   recall: 0.9,
@@ -40,6 +39,7 @@ async function main() {
       set: { type: "string", default: "all" },
       "delay-ms": { type: "string", default: "0" },
       "no-run": { type: "boolean", default: false },
+      prompt: { type: "string", default: CURRENT_PROMPT.version },
     },
   });
 
@@ -64,7 +64,7 @@ async function main() {
     JSON.parse(await readFile(values.gold, "utf8")),
   );
 
-  if (!values["no-run"]) {
+  if (!values["no-run"] && values.prompt === CURRENT_PROMPT.version) {
     const outcome = await extractDocument(documentId, {
       config,
       delayMs: Number(values["delay-ms"]),
@@ -84,7 +84,7 @@ async function main() {
     where: {
       documentId,
       model: config.model,
-      promptVersion: CURRENT_PROMPT.version,
+      promptVersion: values.prompt,
     },
     include: { obligations: true },
   });
@@ -110,7 +110,7 @@ async function main() {
       })),
   );
 
-  console.log(`\nModel ${config.model}, prompt ${CURRENT_PROMPT.version}`);
+  console.log(`\nModel ${config.model}, prompt ${values.prompt}`);
   console.log(`Gold set ${values.gold}, subset ${subset}`);
   console.log(
     `Clauses scored: ${scored.size} of ${wanted.size} labelled in this subset`,

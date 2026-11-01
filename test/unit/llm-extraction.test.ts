@@ -10,6 +10,7 @@ import {
 } from "@/lib/llm/batches";
 import { parseExtraction } from "@/lib/llm/parse";
 import { oblV1 } from "@/lib/llm/prompts/obl-v1";
+import { oblV2 } from "@/lib/llm/prompts/obl-v2";
 import {
   CATEGORIES,
   DAY_BASES,
@@ -145,6 +146,17 @@ describe("the obl-v1 prompt", () => {
       '<clause ref="Art. 1" heading="Le &quot;délai&quot; &lt;court>">Texte.</clause>',
     );
     expect(user).toContain('<clause ref="Art. 2" heading="">Autre texte.');
+  });
+});
+
+describe("the obl-v2 prompt", () => {
+  const CONTRACT = { name: "Demo", type: "CCAG_TRAVAUX", language: "fr" };
+
+  it("keeps obl-v1's text and adds its own rules", () => {
+    const system = oblV2.system(CONTRACT);
+    expect(oblV2.version).toBe("obl-v2");
+    expect(system.startsWith(oblV1.system(CONTRACT))).toBe(true);
+    expect(system).toContain("is_time_bar is always true or false");
   });
 });
 

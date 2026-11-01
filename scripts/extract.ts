@@ -6,11 +6,8 @@
 import { parseArgs } from "node:util";
 
 import { prisma } from "@/lib/db";
-import {
-  CURRENT_PROMPT,
-  extractDocument,
-  getModelConfig,
-} from "@/lib/llm/extract";
+import { extractDocument, getModelConfig } from "@/lib/llm/extract";
+import { CURRENT_PROMPT } from "@/lib/llm/prompts";
 
 async function main() {
   const { positionals, values } = parseArgs({

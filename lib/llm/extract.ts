@@ -14,11 +14,9 @@ import {
   type ModelConfig,
 } from "@/lib/llm/client";
 import { parseExtraction, type CheckedObligation } from "@/lib/llm/parse";
-import { oblV1 } from "@/lib/llm/prompts/obl-v1";
+import { CURRENT_PROMPT } from "@/lib/llm/prompts";
 import { OBLIGATIONS_TOOL } from "@/lib/llm/schemas/obligation";
 import { PREAMBLE_REF } from "@/lib/text/split-clauses";
-
-export const CURRENT_PROMPT = oblV1;
 
 /** Marks a failed run whose batch is worth trying again without being asked. */
 const REQUEST_ERROR_PREFIX = "model-request:";
