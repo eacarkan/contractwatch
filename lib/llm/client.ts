@@ -129,6 +129,8 @@ export function createModelClient(
     const body = JSON.stringify({
       model: config.model,
       max_tokens: MAX_OUTPUT_TOKENS,
+      // Keeps two runs of the same prompt comparable.
+      temperature: 0,
       messages: [
         { role: "system", content: system },
         { role: "user", content: user },

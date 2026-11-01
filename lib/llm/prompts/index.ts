@@ -1,3 +1,3 @@
-import { oblV2 } from "@/lib/llm/prompts/obl-v2";
+import { oblV3 } from "@/lib/llm/prompts/obl-v3";
 
-export const CURRENT_PROMPT = oblV2;
+export const CURRENT_PROMPT = oblV3;

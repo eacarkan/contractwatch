@@ -10,7 +10,9 @@ import {
 } from "@/lib/llm/batches";
 import { parseExtraction } from "@/lib/llm/parse";
 import { oblV1 } from "@/lib/llm/prompts/obl-v1";
+import { CURRENT_PROMPT } from "@/lib/llm/prompts";
 import { oblV2 } from "@/lib/llm/prompts/obl-v2";
+import { oblV3 } from "@/lib/llm/prompts/obl-v3";
 import {
   CATEGORIES,
   DAY_BASES,
@@ -157,6 +159,17 @@ describe("the obl-v2 prompt", () => {
     expect(oblV2.version).toBe("obl-v2");
     expect(system.startsWith(oblV1.system(CONTRACT))).toBe(true);
     expect(system).toContain("is_time_bar is always true or false");
+  });
+});
+
+describe("the obl-v3 prompt", () => {
+  const CONTRACT = { name: "Demo", type: "CCAG_TRAVAUX", language: "fr" };
+
+  it("is current, and adds category rules to obl-v2", () => {
+    const system = oblV3.system(CONTRACT);
+    expect(CURRENT_PROMPT.version).toBe("obl-v3");
+    expect(system.startsWith(oblV2.system(CONTRACT))).toBe(true);
+    expect(system).toContain("How to choose a category");
   });
 });
 
