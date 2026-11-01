@@ -7,8 +7,9 @@ Skeleton. Sections marked "planned" describe work that is not built yet.
 ```
 upload → text extraction → clause segmentation                                       built
   → batches of up to 6 clauses → model, tool call → zod validation → obligations (pending)   built
-  → human review (confirmed / edited / rejected, with a revision row)                         planned
-  → register, events, deadlines, calendar                                                     planned
+  → human review (confirmed / edited / rejected, with a revision row)                         built
+  → register with filters and CSV/XLSX export                                                 built
+  → events, deadlines, calendar                                                               planned
 correspondence entry → suggested links → user confirms → deadline status                      planned
 ```
 
@@ -68,6 +69,12 @@ The project is built to cost nothing to run, so it uses no paid model service. `
 Each batch holds up to six clauses and 12,000 characters, and a longer clause goes alone rather than being cut. Each batch is one `ExtractionRun`, recording model, prompt version, tokens and raw output, so a run can stop and resume. If the service stops answering, as when a daily quota runs out, the run stops and those clauses are tried again next time. A batch the model answered badly stays out until `--retry-failed`, so it cannot use up a quota by repeating.
 
 Every response passes a zod schema before any write, and a failure is recorded in `ExtractionRun.error`. Three further checks add a review note instead of rejecting the item: the quote is not verbatim from the clause, the clause reference is not in the batch, or a period has no basis.
+
+## Review and register
+
+The review screen shows one waiting obligation at a time beside its source clause, with the quote highlighted however the line breaks fall. If the quote is not word for word in the clause, nothing is highlighted and the screen says so. Each decision and its revision row, holding the values before and after, are saved in one transaction. Items from older prompts are left out of the queue, so a rerun does not ask for the same obligation twice.
+
+The register lists confirmed and edited obligations. Exports carry the demonstration wording and neutralise spreadsheet formulas, because their text comes from uploaded documents and a model.
 
 ## Deadline rules (planned)
 

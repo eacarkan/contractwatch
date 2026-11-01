@@ -10,7 +10,7 @@ Construction and EPC contracts spread their notice periods, time bars and paymen
 
 ## Status
 
-In development. Contract upload, text extraction, clause splitting and obligation extraction work. No accuracy result has been measured yet. Review, the register and the calendar are still to come.
+In development. Contract upload, text extraction, clause splitting, obligation extraction, review and the register with export work. No accuracy result has been measured yet. Deadlines and the calendar are still to come.
 
 ## Architecture
 
