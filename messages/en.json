@@ -277,7 +277,8 @@
   "FormErrors": {
     "invalid": "Check the entries and try again.",
     "notFound": "That record no longer exists.",
-    "wrongSender": "Only the party the obligation binds can satisfy it. Choose another relation or check the sender."
+    "wrongSender": "Only the party the obligation binds can satisfy it. Choose another relation or check the sender.",
+    "wrongPassword": "That password is not right."
   },
   "DeadlineStatus": {
     "OPEN": "Open",
@@ -402,5 +403,11 @@
     "empty": "Nothing to show yet. Record an event or link a letter to an obligation.",
     "trigger": "Trigger:",
     "due": "Due date"
+  },
+  "Enter": {
+    "title": "Enter the demonstration",
+    "help": "This shared demonstration is behind a simple password. It is a demonstration gate, not an account.",
+    "password": "Password",
+    "submit": "Enter"
   }
 }

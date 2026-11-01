@@ -277,7 +277,8 @@
   "FormErrors": {
     "invalid": "Vérifiez les champs et réessayez.",
     "notFound": "Cet élément n'existe plus.",
-    "wrongSender": "Seule la partie tenue par l'obligation peut y satisfaire. Choisissez une autre relation ou vérifiez l'expéditeur."
+    "wrongSender": "Seule la partie tenue par l'obligation peut y satisfaire. Choisissez une autre relation ou vérifiez l'expéditeur.",
+    "wrongPassword": "Ce mot de passe n'est pas le bon."
   },
   "DeadlineStatus": {
     "OPEN": "Ouverte",
@@ -402,5 +403,11 @@
     "empty": "Rien à afficher pour l'instant. Enregistrez un événement ou liez une lettre à une obligation.",
     "trigger": "Déclencheur :",
     "due": "Échéance"
+  },
+  "Enter": {
+    "title": "Accéder à la démonstration",
+    "help": "Cette démonstration partagée est protégée par un simple mot de passe. Il s'agit d'une barrière de démonstration, pas d'un compte.",
+    "password": "Mot de passe",
+    "submit": "Entrer"
   }
 }
