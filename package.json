@@ -37,6 +37,10 @@
     "db:studio": "prisma studio",
     "split:preview": "tsx scripts/split-preview.ts",
     "anonymise": "tsx scripts/anonymise.ts",
+    "db:seed": "tsx --conditions=react-server --env-file-if-exists=.env scripts/seed.ts",
+    "specimen:load": "tsx --conditions=react-server --env-file=.env scripts/load-specimen.ts",
+    "review:key": "tsx --conditions=react-server --env-file=.env scripts/review-from-key.ts",
+    "snapshot": "tsx --conditions=react-server --env-file=.env scripts/snapshot.ts",
     "extract": "tsx --conditions=react-server --env-file=.env scripts/extract.ts",
     "eval": "tsx --conditions=react-server --env-file=.env scripts/eval.ts"
   },
