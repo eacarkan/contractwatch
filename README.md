@@ -48,7 +48,7 @@ pnpm split:preview path/to/conditions.pdf --rejected
 
 OCR is a local preprocessing step in this version, because Tesseract does not run in Vercel functions. `scripts/ocr.py` reads a scanned PDF and writes a text file, which you then upload as an OCR text document. The app detects PDFs with no text layer and points you to this step.
 
-OCR verdict: not yet recorded. It will say whether OCR is in scope through the offline script, or whether this version takes digital sources only.
+OCR verdict: in scope, through the offline script. On three pages of a scanned French public procurement circular, the body text read cleanly, while letterheads and stamps were misread (one date lost a digit). OCR text therefore goes through the same human review as any other source.
 
 ## Confidentiality
 
