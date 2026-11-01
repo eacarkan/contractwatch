@@ -128,6 +128,7 @@ model Contract {
   events                Event[]
   correspondence        Correspondence[]
   holidays              Holiday[]
+  runs                  ExtractionRun[]
 }
 
 model Document {
@@ -163,8 +164,11 @@ model Clause {
 
 model ExtractionRun {
   id            String       @id @default(uuid())
-  document      Document     @relation(fields: [documentId], references: [id], onDelete: Cascade)
-  documentId    String
+  // A correspondence-matching run belongs to the contract and has no document.
+  document      Document?    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId    String?
+  contract      Contract?    @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  contractId    String?
   status        RunStatus    @default(QUEUED)
   model         String
   promptVersion String
@@ -204,6 +208,8 @@ model Obligation {
   confidence      Decimal?                   @db.Decimal(3, 2)
   reviewStatus    ReviewStatus               @default(PENDING)
   reviewedAt      DateTime?
+  // Who made the decision when it came from an imported review file.
+  reviewedBy      String?
   reviewNote      String?
   run             ExtractionRun?             @relation(fields: [runId], references: [id])
   runId           String?

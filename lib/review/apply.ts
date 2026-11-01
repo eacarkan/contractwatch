@@ -1,5 +1,6 @@
 import "server-only";
 
+import { recomputeObligation } from "@/lib/deadlines/service";
 import { prisma } from "@/lib/db";
 import type { ReviewStatus } from "@/lib/generated/prisma/enums";
 import {
@@ -8,9 +9,11 @@ import {
   type ObligationEdit,
 } from "@/lib/review/fields";
 
+type ReviewSource = { note?: string | null; reviewedBy?: string | null };
+
 export type ReviewInput =
-  | { decision: "CONFIRMED" | "REJECTED"; note?: string | null }
-  | { decision: "EDITED"; edit: ObligationEdit; note?: string | null };
+  | ({ decision: "CONFIRMED" | "REJECTED" } & ReviewSource)
+  | ({ decision: "EDITED"; edit: ObligationEdit } & ReviewSource);
 
 export type ReviewResult =
   | { ok: true; status: ReviewStatus }
@@ -57,6 +60,7 @@ export async function applyReview(
         clauseId,
         reviewStatus: status,
         reviewedAt: new Date(),
+        reviewedBy: input.reviewedBy ?? null,
       },
     });
     await tx.obligationRevision.create({
@@ -67,6 +71,12 @@ export async function applyReview(
         note: input.note || null,
       },
     });
+
+    if (status === "REJECTED") {
+      await tx.deadline.deleteMany({ where: { obligationId: obligation.id } });
+    } else if (edited) {
+      await recomputeObligation(tx, obligation.id);
+    }
 
     return { ok: true, status };
   });

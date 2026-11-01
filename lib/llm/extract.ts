@@ -22,9 +22,15 @@ import { PREAMBLE_REF } from "@/lib/text/split-clauses";
 const REQUEST_ERROR_PREFIX = "model-request:";
 
 export function getModelConfig(): ModelConfig | null {
-  const { LLM_BASE_URL, LLM_API_KEY, LLM_MODEL } = getEnv();
+  const { LLM_BASE_URL, LLM_API_KEY, LLM_MODEL, LLM_REASONING_EFFORT } =
+    getEnv();
   if (!LLM_BASE_URL || !LLM_MODEL) return null;
-  return { baseUrl: LLM_BASE_URL, apiKey: LLM_API_KEY, model: LLM_MODEL };
+  return {
+    baseUrl: LLM_BASE_URL,
+    apiKey: LLM_API_KEY,
+    model: LLM_MODEL,
+    reasoningEffort: LLM_REASONING_EFFORT,
+  };
 }
 
 export type BatchResult =

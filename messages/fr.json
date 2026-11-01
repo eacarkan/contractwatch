@@ -125,7 +125,11 @@
     "back": "Tous les contrats",
     "documents": "Documents",
     "review": "Revue",
-    "register": "Registre"
+    "register": "Registre",
+    "events": "Événements",
+    "calendar": "Calendrier",
+    "correspondence": "Correspondance",
+    "timeline": "Chronologie"
   },
   "PartyRole": {
     "CONTRACTOR": "Entrepreneur",
@@ -231,6 +235,15 @@
       "invalid": "Vérifiez les champs : un titre de 90 caractères au plus, une citation de 400 au plus, et une unité pour tout délai.",
       "notFound": "Cette obligation n’existe plus. Rechargez la page.",
       "unknownClause": "Aucune clause de ce document ne porte cette référence."
+    },
+    "outside": {
+      "title": "Revue par un outil externe",
+      "help": "Téléchargez les obligations en attente dans un seul fichier, remettez-le au réviseur, par exemple ChatGPT, puis importez le fichier qu'il renvoie. Les décisions sont enregistrées au nom du réviseur. Le fichier contient le texte des clauses : ne l'utilisez que pour des documents publics ou anonymisés.",
+      "download": "Télécharger le fichier de revue",
+      "file": "Fichier du réviseur",
+      "upload": "Importer les décisions",
+      "result": "Importé : {confirmed} confirmées, {edited} modifiées, {rejected} rejetées, {skipped} ignorées.",
+      "invalid": "Ce fichier n'a pas le format attendu : rien n'a été modifié."
     }
   },
   "Register": {
@@ -256,7 +269,138 @@
       "period": "Délai",
       "timeBar": "Forclusion",
       "status": "Statut",
-      "nextDue": "Prochaine échéance"
+      "nextDue": "Prochaine échéance",
+      "reviewedBy": "Revu par"
+    },
+    "reviewedByOwner": "Écran de revue"
+  },
+  "FormErrors": {
+    "invalid": "Vérifiez les champs et réessayez.",
+    "notFound": "Cet élément n'existe plus.",
+    "wrongSender": "Seule la partie tenue par l'obligation peut y satisfaire. Choisissez une autre relation ou vérifiez l'expéditeur."
+  },
+  "DeadlineStatus": {
+    "OPEN": "Ouverte",
+    "OVERDUE": "En retard",
+    "MET": "Respectée",
+    "WAIVED": "Levée",
+    "NOT_APPLICABLE": "Sans objet"
+  },
+  "DeadlineRule": {
+    "after": {
+      "CALENDAR_DAYS": "{value, plural, one {# jour calendaire} other {# jours calendaires}} après l'événement, sans compter le jour de l'événement.",
+      "WORKING_DAYS": "{value, plural, one {# jour ouvrable} other {# jours ouvrables}} après l'événement, hors week-ends et jours fériés du marché.",
+      "MONTHS": "{value, plural, one {# mois} other {# mois}} après l'événement, de quantième à quantième."
+    },
+    "before": {
+      "CALENDAR_DAYS": "{value, plural, one {# jour calendaire} other {# jours calendaires}} avant l'événement.",
+      "WORKING_DAYS": "{value, plural, one {# jour ouvrable} other {# jours ouvrables}} avant l'événement, hors week-ends et jours fériés du marché.",
+      "MONTHS": "{value, plural, one {# mois} other {# mois}} avant l'événement, de quantième à quantième."
+    },
+    "periodic": "Tous les {days} jours, occurrence {occurrence}.",
+    "rolled": "Reportée au jour ouvrable suivant, car le délai finissait un jour non ouvrable."
+  },
+  "CorrRelation": {
+    "SATISFIES": "Satisfait à",
+    "REFERS_TO": "Fait référence à",
+    "RESPONDS_TO": "Répond à",
+    "DISPUTES": "Conteste"
+  },
+  "Events": {
+    "newTitle": "Enregistrer un événement",
+    "editTitle": "Modifier cet événement",
+    "add": "Enregistrer l'événement",
+    "save": "Enregistrer les modifications",
+    "cancel": "Annuler",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "name": "Ce qui s'est passé",
+    "type": "Type",
+    "date": "Date",
+    "source": "Source (facultatif)",
+    "triggers": "Obligations déclenchées par cet événement",
+    "noObligations": "Aucune obligation confirmée n'a encore de délai. Passez d'abord en revue les obligations extraites.",
+    "empty": "Aucun événement pour l'instant. Enregistrez-en un pour calculer ses échéances.",
+    "noDeadlines": "Cet événement ne génère aucune échéance.",
+    "types": {
+      "COMMENCEMENT": "Démarrage",
+      "INSTRUCTION": "Ordre reçu",
+      "DELAY_EVENT": "Événement de retard",
+      "PAYMENT_APPLICATION": "Demande de paiement déposée",
+      "OTHER": "Autre"
+    },
+    "dates": {
+      "title": "Dates du marché",
+      "commencement": "Date de démarrage",
+      "timeForCompletion": "Délai d'exécution (jours)",
+      "save": "Enregistrer les dates"
+    },
+    "holidays": {
+      "title": "Jours fériés",
+      "help": "Ajoutez les jours non ouvrables applicables à ce marché. Rien n'est importé automatiquement.",
+      "date": "Date",
+      "name": "Nom",
+      "add": "Ajouter le jour férié",
+      "remove": "Retirer"
     }
+  },
+  "Calendar": {
+    "previous": "Mois précédent",
+    "next": "Mois suivant",
+    "none": "Aucune.",
+    "timeBar": "Forclusion",
+    "empty": "Aucune échéance pour l'instant.",
+    "openEvents": "Enregistrer un événement.",
+    "groups": {
+      "overdue": "En retard ({count})",
+      "next14": "À échéance dans les 14 jours ({count})",
+      "next30": "À échéance dans 15 à 30 jours ({count})"
+    }
+  },
+  "Correspondence": {
+    "newTitle": "Enregistrer une lettre",
+    "add": "Enregistrer la lettre",
+    "direction": "Sens",
+    "directions": {
+      "IN": "Entrante",
+      "OUT": "Sortante"
+    },
+    "sentOn": "Date d'envoi",
+    "receivedOn": "Date de réception (facultatif)",
+    "reference": "Référence (facultatif)",
+    "from": "De",
+    "to": "À",
+    "subject": "Objet",
+    "summary": "Résumé (facultatif)",
+    "empty": "Aucune lettre enregistrée pour l'instant.",
+    "fromTo": "{from} à {to}",
+    "met": "Échéance du {date} respectée",
+    "notMet": "Ne respecte pas l'échéance du {date}",
+    "unlink": "Retirer le lien",
+    "link": "Lier",
+    "linkTo": "Lier à une obligation ou une échéance",
+    "choose": "Choisir",
+    "dueOn": "échéance {date}",
+    "relation": "Relation",
+    "delete": "Supprimer la lettre",
+    "suggest": {
+      "button": "Suggérer des liens",
+      "working": "Interrogation du modèle…",
+      "none": "Le modèle n'a trouvé aucune obligation correspondante.",
+      "confirm": "Confirmer ce lien",
+      "confirmed": "Lié",
+      "errors": {
+        "noModel": "Aucun service de modèle n'est configuré.",
+        "notFound": "Cette lettre n'existe plus.",
+        "failed": "Le modèle n'a pas donné de réponse exploitable. Réessayez ou liez à la main."
+      }
+    }
+  },
+  "Timeline": {
+    "obligation": "Obligation",
+    "show": "Afficher",
+    "empty": "Rien à afficher pour l'instant. Enregistrez un événement ou liez une lettre à une obligation.",
+    "trigger": "Déclencheur :",
+    "due": "Échéance"
   }
 }

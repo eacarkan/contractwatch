@@ -8,6 +8,7 @@ const envSchema = z
     LLM_BASE_URL: z.url().optional(),
     LLM_API_KEY: z.string().min(1).optional(),
     LLM_MODEL: z.string().min(1).optional(),
+    LLM_REASONING_EFFORT: z.string().min(1).optional(),
     VERCEL: z.string().optional(),
   })
   .refine((env) => !env.VERCEL || env.BLOB_STORE_ID, {

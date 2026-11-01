@@ -125,7 +125,11 @@
     "back": "All contracts",
     "documents": "Documents",
     "review": "Review",
-    "register": "Register"
+    "register": "Register",
+    "events": "Events",
+    "calendar": "Calendar",
+    "correspondence": "Correspondence",
+    "timeline": "Timeline"
   },
   "PartyRole": {
     "CONTRACTOR": "Contractor",
@@ -231,6 +235,15 @@
       "invalid": "Check the fields: a title of up to 90 characters, a quote of up to 400, and a unit for any period.",
       "notFound": "This obligation no longer exists. Reload the page.",
       "unknownClause": "No clause in this document has that reference."
+    },
+    "outside": {
+      "title": "Review with an outside tool",
+      "help": "Download the waiting obligations as one file, give it to the reviewer, such as ChatGPT, and upload the file it returns. Decisions are recorded under the reviewer's name. The file holds clause text, so use it only for public or anonymised documents.",
+      "download": "Download review file",
+      "file": "Reviewer's file",
+      "upload": "Import decisions",
+      "result": "Imported: {confirmed} confirmed, {edited} edited, {rejected} rejected, {skipped} skipped.",
+      "invalid": "This file is not in the expected format, so nothing was changed."
     }
   },
   "Register": {
@@ -256,7 +269,138 @@
       "period": "Period",
       "timeBar": "Time bar",
       "status": "Status",
-      "nextDue": "Next due"
+      "nextDue": "Next due",
+      "reviewedBy": "Reviewed by"
+    },
+    "reviewedByOwner": "Review screen"
+  },
+  "FormErrors": {
+    "invalid": "Check the entries and try again.",
+    "notFound": "That record no longer exists.",
+    "wrongSender": "Only the party the obligation binds can satisfy it. Choose another relation or check the sender."
+  },
+  "DeadlineStatus": {
+    "OPEN": "Open",
+    "OVERDUE": "Overdue",
+    "MET": "Met",
+    "WAIVED": "Waived",
+    "NOT_APPLICABLE": "Not applicable"
+  },
+  "DeadlineRule": {
+    "after": {
+      "CALENDAR_DAYS": "{value, plural, one {# calendar day} other {# calendar days}} after the event, not counting the day of the event.",
+      "WORKING_DAYS": "{value, plural, one {# working day} other {# working days}} after the event, skipping weekends and the contract's holidays.",
+      "MONTHS": "{value, plural, one {# month} other {# months}} after the event, from day to same day."
+    },
+    "before": {
+      "CALENDAR_DAYS": "{value, plural, one {# calendar day} other {# calendar days}} before the event.",
+      "WORKING_DAYS": "{value, plural, one {# working day} other {# working days}} before the event, skipping weekends and the contract's holidays.",
+      "MONTHS": "{value, plural, one {# month} other {# months}} before the event, from day to same day."
+    },
+    "periodic": "Every {days} days, occurrence {occurrence}.",
+    "rolled": "Moved to the next working day, because the period ended on a non-working day."
+  },
+  "CorrRelation": {
+    "SATISFIES": "Satisfies",
+    "REFERS_TO": "Refers to",
+    "RESPONDS_TO": "Responds to",
+    "DISPUTES": "Disputes"
+  },
+  "Events": {
+    "newTitle": "Record an event",
+    "editTitle": "Edit this event",
+    "add": "Record event",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "name": "What happened",
+    "type": "Type",
+    "date": "Date",
+    "source": "Source (optional)",
+    "triggers": "Obligations this event triggers",
+    "noObligations": "No confirmed obligation has a period yet. Review the extracted obligations first.",
+    "empty": "No events yet. Record one to work out its due dates.",
+    "noDeadlines": "This event generates no due dates.",
+    "types": {
+      "COMMENCEMENT": "Commencement",
+      "INSTRUCTION": "Instruction received",
+      "DELAY_EVENT": "Delay event",
+      "PAYMENT_APPLICATION": "Payment application submitted",
+      "OTHER": "Other"
+    },
+    "dates": {
+      "title": "Contract dates",
+      "commencement": "Commencement date",
+      "timeForCompletion": "Time for completion (days)",
+      "save": "Save dates"
+    },
+    "holidays": {
+      "title": "Holidays",
+      "help": "Add the non-working days that apply to this contract. Nothing is imported automatically.",
+      "date": "Date",
+      "name": "Name",
+      "add": "Add holiday",
+      "remove": "Remove"
     }
+  },
+  "Calendar": {
+    "previous": "Previous month",
+    "next": "Next month",
+    "none": "None.",
+    "timeBar": "Time bar",
+    "empty": "No due dates yet.",
+    "openEvents": "Record an event.",
+    "groups": {
+      "overdue": "Overdue ({count})",
+      "next14": "Due in the next 14 days ({count})",
+      "next30": "Due in 15 to 30 days ({count})"
+    }
+  },
+  "Correspondence": {
+    "newTitle": "Log a letter",
+    "add": "Log letter",
+    "direction": "Direction",
+    "directions": {
+      "IN": "Incoming",
+      "OUT": "Outgoing"
+    },
+    "sentOn": "Date sent",
+    "receivedOn": "Date received (optional)",
+    "reference": "Reference (optional)",
+    "from": "From",
+    "to": "To",
+    "subject": "Subject",
+    "summary": "Summary (optional)",
+    "empty": "No letters logged yet.",
+    "fromTo": "{from} to {to}",
+    "met": "Deadline of {date} met",
+    "notMet": "Does not meet the deadline of {date}",
+    "unlink": "Remove link",
+    "link": "Link",
+    "linkTo": "Link to an obligation or due date",
+    "choose": "Choose one",
+    "dueOn": "due {date}",
+    "relation": "Relation",
+    "delete": "Delete letter",
+    "suggest": {
+      "button": "Suggest links",
+      "working": "Asking the model…",
+      "none": "The model found no obligation that fits.",
+      "confirm": "Confirm this link",
+      "confirmed": "Linked",
+      "errors": {
+        "noModel": "No model service is set.",
+        "notFound": "That letter no longer exists.",
+        "failed": "The model did not give a usable answer. Try again or link by hand."
+      }
+    }
+  },
+  "Timeline": {
+    "obligation": "Obligation",
+    "show": "Show",
+    "empty": "Nothing to show yet. Record an event or link a letter to an obligation.",
+    "trigger": "Trigger:",
+    "due": "Due date"
   }
 }

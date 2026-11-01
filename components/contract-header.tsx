@@ -3,7 +3,15 @@ import { getTranslations } from "next-intl/server";
 import type { ContractType } from "@/lib/generated/prisma/enums";
 import { Link } from "@/lib/i18n/navigation";
 
-const SECTIONS = ["documents", "review", "register"] as const;
+const SECTIONS = [
+  "documents",
+  "review",
+  "register",
+  "events",
+  "calendar",
+  "correspondence",
+  "timeline",
+] as const;
 
 export async function ContractHeader({
   contract,

@@ -9,6 +9,8 @@ export type ModelConfig = {
   baseUrl: string;
   apiKey?: string;
   model: string;
+  /** "none" stops a local thinking model spending its time budget before it answers. */
+  reasoningEffort?: string;
 };
 
 export type ToolRequest = {
@@ -131,6 +133,9 @@ export function createModelClient(
       max_tokens: MAX_OUTPUT_TOKENS,
       // Keeps two runs of the same prompt comparable.
       temperature: 0,
+      ...(config.reasoningEffort && {
+        reasoning_effort: config.reasoningEffort,
+      }),
       messages: [
         { role: "system", content: system },
         { role: "user", content: user },

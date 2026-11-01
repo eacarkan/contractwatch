@@ -1,0 +1,7 @@
+export const EVENT_TYPES = [
+  "COMMENCEMENT",
+  "INSTRUCTION",
+  "DELAY_EVENT",
+  "PAYMENT_APPLICATION",
+  "OTHER",
+] as const;
