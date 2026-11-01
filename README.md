@@ -1,0 +1,67 @@
+# ContractWatch
+
+[![CI](https://github.com/eacarkan/contractwatch/actions/workflows/ci.yml/badge.svg)](https://github.com/eacarkan/contractwatch/actions/workflows/ci.yml)
+
+A demonstration tool that reads infrastructure and EPC contracts and turns their time-bound obligations into a human-reviewed register and notice calendar. It uses demonstration data only and is not deployed on any live contract.
+
+## The problem
+
+Construction and EPC contracts spread their notice periods, time bars and payment deadlines across hundreds of clauses, and a missed notice can lose a right. Those dates are usually tracked by hand, on paper and in email.
+
+## Status
+
+In development. Contract upload, text extraction and clause splitting work. Obligation extraction, review, the register and the calendar are still to come.
+
+## Architecture
+
+To be completed. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the pipeline and data model so far.
+
+## How to run
+
+You need Node 24, pnpm 10 and Docker.
+
+```bash
+pnpm install
+cp .env.example .env
+pnpm db:up
+pnpm db:migrate
+pnpm dev
+```
+
+Then open http://localhost:3000. Local development runs offline: Postgres is in Docker, and a gitignored `.local-blob/` folder stands in for Vercel Blob.
+
+To check the code:
+
+```bash
+pnpm typecheck
+pnpm lint
+pnpm test
+```
+
+To see how a file splits into clauses without uploading it:
+
+```bash
+pnpm split:preview path/to/conditions.pdf --rejected
+```
+
+## OCR
+
+OCR is a local preprocessing step in this version, because Tesseract does not run in Vercel functions. `scripts/ocr.py` reads a scanned PDF and writes a text file, which you then upload as an OCR text document. The app detects PDFs with no text layer and points you to this step.
+
+OCR verdict: not yet recorded. It will say whether OCR is in scope through the offline script, or whether this version takes digital sources only.
+
+## Confidentiality
+
+Real contract files never enter this repository. `scripts/anonymise.ts` replaces names and amounts from a private map, shifts every date by a fixed number of days, and refuses to write its output while anything it could not handle remains. The repository contains no FIDIC clause text.
+
+## Limitations
+
+To be completed. Known so far: scanned documents need the offline OCR step, and a DOCX that uses Word's automatic numbering should be exported to PDF first, because those numbers are not in its text.
+
+## What this does not claim
+
+To be completed.
+
+## Licence
+
+[MIT](LICENSE)
