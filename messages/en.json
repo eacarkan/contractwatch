@@ -214,6 +214,7 @@
     "notes": {
       "lowConfidence": "Low confidence: the model gave {confidence, number, percent}. Check that this clause is time-bound at all.",
       "quote-not-in-clause": "The model's quote is not word for word in this clause.",
+      "quote-shortened": "The model's quote was too long, so it was cut to the limit.",
       "unknown-clause-ref": "The model named a clause that was not in its batch.",
       "period-without-basis": "The model gave a period with no unit."
     },

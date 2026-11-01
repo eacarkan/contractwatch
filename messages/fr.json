@@ -214,6 +214,7 @@
     "notes": {
       "lowConfidence": "Confiance faible : le modèle indique {confidence, number, percent}. Vérifiez que cette clause comporte bien un délai.",
       "quote-not-in-clause": "La citation du modèle ne figure pas mot pour mot dans cette clause.",
+      "quote-shortened": "La citation du modèle était trop longue et a été coupée à la limite.",
       "unknown-clause-ref": "Le modèle a cité une clause absente de son lot.",
       "period-without-basis": "Le modèle a indiqué un délai sans unité."
     },

@@ -80,12 +80,22 @@ describe("parseExtraction", () => {
   it.each([
     ["an unknown category", { category: "MAYBE" }],
     ["a title over the limit", { title: "x".repeat(TITLE_MAX + 1) }],
-    ["a quote over the limit", { source_quote: "x".repeat(QUOTE_MAX + 1) }],
     ["a fractional period", { period_value: 1.5 }],
     ["a confidence above 1", { confidence: 1.2 }],
     ["a missing time-bar flag", { is_time_bar: undefined }],
   ])("rejects %s", (_name, changes) => {
     expect(() => parseOne(changes)).toThrow(ZodError);
+  });
+
+  it("cuts an over-long quote at a word, keeping it verbatim and flagging it", () => {
+    const words = "word ".repeat(QUOTE_MAX);
+    const obligation = parseExtraction(
+      { obligations: [{ ...OBLIGATION, source_quote: words }] },
+      [{ clauseRef: "S-1.1", body: words }],
+    )[0]!;
+    expect(obligation.source_quote.length).toBeLessThanOrEqual(QUOTE_MAX);
+    expect(obligation.source_quote.endsWith("word")).toBe(true);
+    expect(obligation.flags).toEqual(["quote-shortened"]);
   });
 
   it("rejects output with no obligations list", () => {

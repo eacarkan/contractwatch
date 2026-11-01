@@ -46,6 +46,7 @@ async function pendingClauses(
   documentId: string,
   model: string,
   retryFailed: boolean,
+  keepOtherModels: boolean,
 ) {
   const [clauses, runs] = await Promise.all([
     prisma.clause.findMany({
@@ -55,9 +56,12 @@ async function pendingClauses(
     prisma.extractionRun.findMany({
       where: {
         documentId,
-        model,
         promptVersion: CURRENT_PROMPT.version,
         status: { in: ["DONE", "FAILED"] },
+        OR: [
+          { model },
+          ...(keepOtherModels ? [{ status: "DONE" as const }] : []),
+        ],
       },
       select: { status: true, clauseRefs: true, error: true },
     }),
@@ -124,9 +128,20 @@ export async function runNextBatch(
     config,
     callModel = createModelClient(config),
     retryFailed = false,
-  }: { config: ModelConfig; callModel?: CallModel; retryFailed?: boolean },
+    keepOtherModels = false,
+  }: {
+    config: ModelConfig;
+    callModel?: CallModel;
+    retryFailed?: boolean;
+    keepOtherModels?: boolean;
+  },
 ): Promise<BatchResult> {
-  const pending = await pendingClauses(documentId, config.model, retryFailed);
+  const pending = await pendingClauses(
+    documentId,
+    config.model,
+    retryFailed,
+    keepOtherModels,
+  );
   const batch = nextBatch(pending);
   if (batch.length === 0) return { status: "NOTHING_LEFT" };
 
@@ -235,12 +250,14 @@ export async function extractDocument(
     delayMs = 0,
     limit = Infinity,
     retryFailed = false,
+    keepOtherModels = false,
     onBatch,
   }: {
     config: ModelConfig;
     delayMs?: number;
     limit?: number;
     retryFailed?: boolean;
+    keepOtherModels?: boolean;
     onBatch?: (result: BatchResult) => void;
   },
 ) {
@@ -251,7 +268,11 @@ export async function extractDocument(
       await new Promise((done) => setTimeout(done, delayMs));
     }
 
-    const result = await runNextBatch(documentId, { config, retryFailed });
+    const result = await runNextBatch(documentId, {
+      config,
+      retryFailed,
+      keepOtherModels,
+    });
     if (result.status === "NOTHING_LEFT") return result.status;
     onBatch?.(result);
     if (result.status === "UNAVAILABLE") return result.status;

@@ -1,7 +1,10 @@
 /**
  * Runs extraction for an uploaded document, resuming where the last run stopped.
  *
- *   pnpm extract <documentId> [--delay-ms 7000] [--limit 5] [--retry-failed]
+ *   pnpm extract <documentId> [--delay-ms 7000] [--limit 5] [--retry-failed] [--keep-other-models]
+ *
+ * --keep-other-models counts clauses another model already finished as done, so a
+ * change of model continues the document instead of starting it again.
  */
 import { parseArgs } from "node:util";
 
@@ -16,13 +19,14 @@ async function main() {
       "delay-ms": { type: "string", default: "0" },
       limit: { type: "string" },
       "retry-failed": { type: "boolean", default: false },
+      "keep-other-models": { type: "boolean", default: false },
     },
   });
 
   const [documentId] = positionals;
   if (!documentId) {
     console.error(
-      "Usage: pnpm extract <documentId> [--delay-ms 7000] [--limit 5] [--retry-failed]",
+      "Usage: pnpm extract <documentId> [--delay-ms 7000] [--limit 5] [--retry-failed] [--keep-other-models]",
     );
     process.exitCode = 1;
     return;
@@ -41,6 +45,7 @@ async function main() {
     delayMs: Number(values["delay-ms"]),
     limit: values.limit ? Number(values.limit) : Infinity,
     retryFailed: values["retry-failed"],
+    keepOtherModels: values["keep-other-models"],
     onBatch: (result) => {
       if (result.status === "NOTHING_LEFT") return;
       const refs = result.clauseRefs.join(", ");
