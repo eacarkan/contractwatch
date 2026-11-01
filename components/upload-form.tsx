@@ -126,7 +126,7 @@ export function UploadForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="border-border grid gap-4 rounded-lg border bg-white p-4"
+      className="border-border grid grid-cols-1 gap-4 rounded-lg border bg-white p-4"
     >
       <h2 className="font-heading text-xl font-semibold">
         {t("upload.title")}

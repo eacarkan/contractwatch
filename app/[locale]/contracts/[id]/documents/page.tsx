@@ -61,7 +61,7 @@ export default async function DocumentsPage({
   const contractTypes = await getTranslations("ContractType");
 
   return (
-    <div className="grid gap-8">
+    <div className="grid grid-cols-1 gap-8">
       <header>
         <Link
           href="/contracts"
@@ -80,7 +80,7 @@ export default async function DocumentsPage({
         storage={usesVercelBlob() ? "blob" : "local"}
       />
 
-      <section className="grid gap-4">
+      <section className="grid grid-cols-1 gap-4">
         <h2 className="font-heading text-2xl font-semibold">
           {t("list.title")}
         </h2>
