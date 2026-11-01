@@ -6,9 +6,9 @@ Demonstration tool that extracts time-bound obligations, notice requirements and
 
 ## Current build section and gate
 
-Build Section 2. Work goes section by section with no schedule: where the plan says "Week N", read build Section N, and ignore its dates. Build only what the plan's section 8 lists for Section 2, then stop.
+Build Section 3. Work goes section by section with no schedule: where the plan says "Week N", read build Section N, and ignore its dates. Build only what the plan's section 8 lists for Section 3, then stop.
 
-Gate, judged by the owner and never marked passed by Claude: the evaluation runs end to end and prints the four metrics for `obl-v1`. Any number is acceptable at this stage.
+Gate, judged by the owner and never marked passed by Claude: the owner has personally reviewed every extracted obligation of the CCAG contract; recall is at least 0.85; the smoke test is green in CI.
 
 The project must cost nothing to run. Extraction uses a local model or a free tier and runs on the owner's computer, and the results are copied to the site. No model service is set on the public site. Do not suggest paid services or the Anthropic SDK.
 
@@ -43,6 +43,7 @@ pnpm dev                     # http://localhost:3000
 pnpm lint
 pnpm typecheck
 pnpm test
+pnpm test:e2e                # Playwright smoke test; needs `pnpm db:up` and no dev server running
 pnpm split:preview <file>    # print the clause list for a local file
 pnpm anonymise <in> --names <map.json> --offset <days> --out <out.txt>
 python3 scripts/ocr.py <scanned.pdf>   # writes <scanned>.ocr.txt beside the input

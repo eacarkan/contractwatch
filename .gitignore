@@ -35,3 +35,7 @@ next-env.d.ts
 .vercel
 .claude/
 .DS_Store
+
+# Playwright
+/test-results/
+/playwright-report/
