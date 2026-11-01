@@ -296,16 +296,18 @@ export function countWords(text: string): number {
   return text.split(/\s+/u).filter(Boolean).length;
 }
 
+export function countNumberedClauses(clauses: { clauseRef: string }[]): number {
+  return clauses.filter((clause) => clause.clauseRef !== PREAMBLE_REF).length;
+}
+
 /** Applies section 4.2's fallback conditions to a finished clause list. */
 export function findFallbackReasons(
   clauses: { clauseRef: string; body: string }[],
 ): FallbackReason[] {
   const reasons: FallbackReason[] = [];
-  const numbered = clauses.filter(
-    (clause) => clause.clauseRef !== PREAMBLE_REF,
-  );
-  if (numbered.length < FALLBACK_MIN_CLAUSES) {
-    reasons.push({ code: "too-few-clauses", clauses: numbered.length });
+  const numbered = countNumberedClauses(clauses);
+  if (numbered < FALLBACK_MIN_CLAUSES) {
+    reasons.push({ code: "too-few-clauses", clauses: numbered });
   }
   for (const clause of clauses) {
     const words = countWords(clause.body);
