@@ -4,15 +4,15 @@ Demonstration tool that extracts time-bound obligations, notice requirements and
 
 `docs/BUILD_PLAN.md` is the authoritative plan. It is gitignored, so it exists only on the owner's machine. Read it before starting work.
 
-## Current week and gate
+## Current build section and gate
 
-Week 1 (2 to 8 November 2026). Build only what section 8 lists for Week 1, then stop.
+Build Section 1. Work goes section by section with no schedule: where the plan says "Week N", read build Section N, and ignore its dates. Build only what the plan's section 8 lists for Section 1, then stop.
 
-Gate, Sunday 8 November, judged by the owner and never marked passed by Claude: CI green; CCAG general conditions upload, extract and split into referenced clauses on the deployed preview; OCR verdict recorded in the README.
+Gate, judged by the owner and never marked passed by Claude: CI green; CCAG general conditions upload, extract and split into referenced clauses on the deployed preview; OCR verdict recorded in the README.
 
 ## Hard rules
 
-1. Do not start the next week's build until the owner passes the gate.
+1. Do not start the next build section until the owner passes the gate.
 2. No FIDIC clause text anywhere in the repository, seed data, tests or prompts.
 3. Real contract files, name maps and `docs/BUILD_PLAN.md` never enter the repository. `raw/` is gitignored. `scripts/anonymise.ts` runs before anything derived from a real contract is committed. Public files carry no employer, project or job-search references.
 4. Every screen carries the banner "Demonstration data — not a live contract."
@@ -46,4 +46,4 @@ pnpm anonymise <in> --names <map.json> --offset <days> --out <out.txt>
 python3 scripts/ocr.py <scanned.pdf>   # writes <scanned>.ocr.txt beside the input
 ```
 
-Seeding (`pnpm db:seed`, `scripts/seed.ts`) arrives in Week 6.
+Seeding (`pnpm db:seed`, `scripts/seed.ts`) arrives in Section 6.
