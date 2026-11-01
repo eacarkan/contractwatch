@@ -1,0 +1,174 @@
+SPECIMEN EPC CONTRACT
+A synthetic contract written for demonstration. It follows the general order of an international design-build form, in original wording, and is not a copy or summary of any published form.
+
+1 General matters
+
+1.1 Language and communications
+Every notice under this Contract shall be in writing and in English. A notice takes effect on the day it is received at the address stated in the Contract Data.
+
+1.2 Change of address
+A Party that changes its address for notices shall tell the other Party of the new address within 7 days of the change.
+
+2 The Employer
+
+2.1 Access to the Site
+The Employer shall give the Contractor access to the whole of the Site within 30 days after the Commencement Date. If the Employer has not done so by then, the Contractor may treat the delay as an Employer Delay Event.
+
+2.2 Evidence of funding
+Within 21 days after a written request from the Contractor, the Employer shall provide reasonable evidence that funds are available to pay the Contract Price.
+
+3 The Employer's Representative
+
+3.1 Appointment
+The Employer shall name the Employer's Representative within 10 days after the date of this Contract.
+
+3.2 Replacing the Representative
+The Employer shall give the Contractor at least 14 days' notice before replacing the Employer's Representative.
+
+3.3 Replies to submissions
+The Employer's Representative shall answer any request for a decision within 14 days of receiving it. A submission not answered within that period is treated as having no objection.
+
+4 The Contractor
+
+4.1 Performance Security
+The Contractor shall deliver the Performance Security to the Employer within 28 days after the Commencement Date.
+
+4.2 Keeping the security valid
+Where the Performance Security would expire before the Works are complete, the Contractor shall extend it not later than 30 days before its expiry date.
+
+4.3 Key Personnel
+The Contractor shall submit the names and curricula of its Key Personnel within 15 days after the Commencement Date.
+
+4.4 Subcontractors
+The Contractor shall notify the Employer's Representative of each proposed Subcontractor at least 21 days before that Subcontractor starts work on the Site.
+
+5 Design
+
+5.1 Design programme
+The Contractor shall submit a design delivery schedule within 20 days after the Commencement Date.
+
+5.2 Errors in the Employer's Requirements
+If the Contractor finds an error in the Employer's Requirements, it shall notify the Employer's Representative within 10 days of finding it. A Contractor that does not give this notice in time shall have no right to additional time or money arising from that error.
+
+5.3 As-built documents
+The Contractor shall hand over the as-built drawings and operating manuals no later than 45 days before the date of the Completion Tests.
+
+6 Staff and Labour
+
+6.1 Site safety reports
+The Contractor shall send a site safety report to the Employer's Representative every 30 days.
+
+6.2 Accidents
+The Contractor shall report any serious accident to the Employer's Representative within 2 working days after it happens.
+
+7 Plant, Materials and Workmanship
+
+7.1 Inspection notice
+The Contractor shall give the Employer's Representative at least 5 working days' notice before covering any work that is to be inspected.
+
+7.2 Rejected Plant
+The Contractor shall replace or repair rejected Plant within 30 days of being told of the rejection.
+
+8 Commencement, Delays and Suspension
+
+8.1 Commencement of Works
+The Contractor shall begin the Works within 14 days after the Commencement Date.
+
+8.2 Programme
+The Contractor shall submit a detailed programme within 28 days after the Commencement Date.
+
+8.3 Progress reports
+The Contractor shall deliver a progress report to the Employer's Representative every 30 days until the Works are taken over.
+
+8.4 Time for Completion
+The Contractor shall complete the Works within the Time for Completion stated in the Contract Data.
+
+8.5 Early warning of delay
+The Contractor shall warn the Employer's Representative within 7 days of learning of any event likely to delay the Works.
+
+8.6 Notice of suspension
+The Contractor shall give the Employer at least 21 days' notice before suspending work for non-payment.
+
+9 Tests on Completion
+
+9.1 Notice of readiness
+The Contractor shall give the Employer's Representative at least 21 days' notice of the date on which it will be ready for the Tests on Completion.
+
+9.2 Repeat tests
+If a test fails, the Employer's Representative may require it to be repeated, and the Contractor shall repeat the test within 14 days of that request.
+
+10 Employer's Taking Over
+
+10.1 Taking-Over Certificate
+The Employer's Representative shall issue the Taking-Over Certificate or give reasons for refusing it within 21 days of receiving the Contractor's application.
+
+11 Defects Liability
+
+11.1 Defects Notification Period
+The Contractor shall remedy any defect notified during the Defects Notification Period within 14 days of the notice.
+
+11.2 Performance Certificate
+The Employer's Representative shall issue the Performance Certificate within 28 days after the end of the Defects Notification Period.
+
+12 Variations
+
+12.1 Variation proposals
+Within 14 days of receiving a Variation request, the Contractor shall submit a proposal stating its effect on the programme and the Contract Price.
+
+12.2 Objection to an instruction
+A Contractor that considers an instruction to be a Variation shall say so in writing within 10 days of receiving it, failing which the instruction shall be treated as not being a Variation.
+
+13 Contract Price and Payment
+
+13.1 Advance payment
+The Employer shall pay the advance payment within 30 days after receiving the Performance Security and the advance payment guarantee.
+
+13.2 Payment applications
+The Contractor shall submit a payment application at the end of every 30 days.
+
+13.3 Interim certificates
+The Employer's Representative shall certify each payment application within 21 days of receiving it.
+
+13.4 Interim payments
+The Employer shall pay each certified amount within 45 days of the date of the certificate.
+
+13.5 Final statement
+The Contractor shall submit a draft final statement within 56 days after receiving the Performance Certificate.
+
+14 Termination
+
+14.1 Notice to correct
+Where the Contractor is in material breach, the Employer may require it to correct the breach within 30 days of a notice to correct.
+
+14.2 Termination by the Contractor
+The Contractor may terminate this Contract by giving 28 days' notice if an amount certified remains unpaid 60 days after it fell due.
+
+15 Risk and Insurance
+
+15.1 Evidence of insurance
+The Contractor shall deliver evidence of the required insurances within 21 days after the Commencement Date.
+
+15.2 Insurance renewals
+The Contractor shall deliver evidence of each renewal at least 7 days before the current policy ends.
+
+16 Force Majeure
+
+16.1 Notice of Force Majeure
+A Party prevented from performing by Force Majeure shall notify the other Party within 14 days of becoming aware of the event, and shall have no relief for any period before the notice if it does not.
+
+17 Claims and Disputes
+
+17.1 Contractor's claims
+If the Contractor considers itself entitled to additional time or money, it shall notify the Employer's Representative within 28 days of becoming aware of the event. If the Contractor does not give notice within that period, it shall lose its right to additional time and money for that event.
+
+17.2 Particulars of a claim
+Within 42 days of becoming aware of the event, the Contractor shall send the Employer's Representative full particulars of the claim.
+
+17.3 Response to a claim
+The Employer's Representative shall respond to the particulars within 42 days of receiving them.
+
+17.4 Notice of dissatisfaction
+A Party dissatisfied with a decision shall give notice of dissatisfaction within 28 days of receiving it. If neither Party gives this notice in time, the decision becomes final and binding.
+
+17.5 Amicable settlement
+The Parties shall attempt to settle a dispute amicably for 30 days after a notice of dissatisfaction before starting arbitration.
