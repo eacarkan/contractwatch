@@ -14,5 +14,103 @@
     "title": "Cette page n’a pas pu se charger",
     "body": "ContractWatch n’a pas pu joindre sa base de données ou son stockage de fichiers. Réessayez dans un instant.",
     "retry": "Réessayer"
+  },
+  "ContractType": {
+    "CCAG_TRAVAUX": "CCAG-Travaux",
+    "FIDIC_YB_1999": "Structure FIDIC Livre jaune 1999",
+    "FIDIC_YB_2017": "Structure FIDIC Livre jaune 2017",
+    "EPC_GENERIC": "EPC générique"
+  },
+  "Language": {
+    "fr": "Français",
+    "en": "Anglais"
+  },
+  "DocKind": {
+    "GENERAL_CONDITIONS": "Conditions générales",
+    "PARTICULAR_CONDITIONS": "Conditions particulières",
+    "AGREEMENT": "Convention",
+    "ANNEX": "Annexe",
+    "SPECIFICATION": "Spécification",
+    "OCR_TEXT": "Texte OCR",
+    "OTHER": "Autre"
+  },
+  "TextStatus": {
+    "PENDING": "En attente",
+    "EXTRACTED": "Texte extrait",
+    "NEEDS_OCR": "OCR nécessaire",
+    "FAILED": "Échec"
+  },
+  "Contracts": {
+    "title": "Contrats",
+    "empty": "Aucun contrat pour l’instant. Créez-en un pour téléverser ses conditions.",
+    "columns": {
+      "name": "Contrat",
+      "type": "Type de contrat",
+      "language": "Langue",
+      "documents": "Documents",
+      "created": "Créé le"
+    },
+    "form": {
+      "title": "Nouveau contrat",
+      "name": "Nom du contrat",
+      "type": "Type de contrat",
+      "language": "Langue du contrat",
+      "submit": "Créer le contrat",
+      "submitting": "Création du contrat…"
+    },
+    "errors": {
+      "name": "Saisissez un nom de contrat de 200 caractères au maximum.",
+      "invalid": "Choisissez un type de contrat et une langue."
+    }
+  },
+  "Documents": {
+    "back": "Tous les contrats",
+    "upload": {
+      "title": "Téléverser un document",
+      "kind": "Type de document",
+      "file": "Fichier",
+      "hint": "PDF, DOCX ou texte, 50 Mo au maximum.",
+      "submit": "Téléverser le document",
+      "uploading": "Téléversement du fichier…",
+      "processing": "Extraction du texte et découpage des clauses…",
+      "done": "{filename} téléversé. {clauses, plural, one {# clause trouvée} other {# clauses trouvées}}.",
+      "doneNeedsOcr": "{filename} téléversé. Il n’a pas de couche de texte : un OCR est nécessaire."
+    },
+    "errors": {
+      "chooseFile": "Choisissez un fichier à téléverser.",
+      "fileType": "Téléversez un fichier PDF, DOCX ou texte.",
+      "fileSize": "Ce fichier dépasse la limite de 50 Mo.",
+      "uploadFailed": "Le fichier n’a pas pu être enregistré. Réessayez.",
+      "invalidRequest": "La demande de téléversement n’est pas valide. Rechargez la page et réessayez.",
+      "contractNotFound": "Ce contrat n’existe plus.",
+      "blobNotFound": "Le fichier téléversé est introuvable. Téléversez-le de nouveau.",
+      "emptyText": "Ce fichier ne contient aucun texte.",
+      "extractionFailed": "Le texte n’a pas pu être lu. Vérifiez que le fichier s’ouvre normalement et n’a pas de mot de passe."
+    },
+    "warnings": {
+      "pagesWithoutText": "Ces pages n’ont pas de couche de texte et ont été ignorées : {pages}. Elles sont peut-être numérisées.",
+      "docxAutoNumbering": "{paragraphs, plural, one {# paragraphe utilise} other {# paragraphes utilisent}} la numérotation automatique de Word : ces numéros ne figurent pas dans le texte. Exportez le fichier en PDF et téléversez ce PDF."
+    },
+    "list": {
+      "title": "Documents",
+      "empty": "Aucun document pour l’instant. Téléversez d’abord les conditions générales.",
+      "summary": "{pages, plural, =0 {} one {# page, } other {# pages, }}{clauses, plural, one {# clause} other {# clauses}}"
+    },
+    "needsOcr": "Aucune couche de texte n’a été trouvée. Exécutez scripts/ocr.py sur ce fichier sur votre ordinateur, puis téléversez le fichier texte obtenu comme document Texte OCR.",
+    "failed": "Le texte de ce fichier n’a pas pu être lu. Téléversez-le de nouveau, ou vérifiez qu’il s’ouvre normalement.",
+    "fallback": {
+      "tooFewClauses": "{clauses, plural, one {Seule # clause a été trouvée} other {Seules # clauses ont été trouvées}} : ce découpage est peut-être incomplet.",
+      "clauseTooLong": "{clauseRef} compte {words} mots : elle contient peut-être des clauses que le découpage n’a pas repérées."
+    },
+    "clauses": {
+      "toggle": "Liste des clauses",
+      "preamble": "Avant la première clause",
+      "columns": {
+        "ref": "Référence",
+        "heading": "Intitulé et début du texte",
+        "pages": "Pages",
+        "words": "Mots"
+      }
+    }
   }
 }

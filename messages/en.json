@@ -14,5 +14,103 @@
     "title": "This page could not load",
     "body": "ContractWatch could not reach its database or file store. Try again in a moment.",
     "retry": "Try again"
+  },
+  "ContractType": {
+    "CCAG_TRAVAUX": "CCAG-Travaux",
+    "FIDIC_YB_1999": "FIDIC Yellow Book 1999 structure",
+    "FIDIC_YB_2017": "FIDIC Yellow Book 2017 structure",
+    "EPC_GENERIC": "Generic EPC"
+  },
+  "Language": {
+    "fr": "French",
+    "en": "English"
+  },
+  "DocKind": {
+    "GENERAL_CONDITIONS": "General conditions",
+    "PARTICULAR_CONDITIONS": "Particular conditions",
+    "AGREEMENT": "Agreement",
+    "ANNEX": "Annex",
+    "SPECIFICATION": "Specification",
+    "OCR_TEXT": "OCR text",
+    "OTHER": "Other"
+  },
+  "TextStatus": {
+    "PENDING": "Waiting",
+    "EXTRACTED": "Text extracted",
+    "NEEDS_OCR": "Needs OCR",
+    "FAILED": "Failed"
+  },
+  "Contracts": {
+    "title": "Contracts",
+    "empty": "No contracts yet. Create one to upload its conditions.",
+    "columns": {
+      "name": "Contract",
+      "type": "Form of contract",
+      "language": "Language",
+      "documents": "Documents",
+      "created": "Created"
+    },
+    "form": {
+      "title": "New contract",
+      "name": "Contract name",
+      "type": "Form of contract",
+      "language": "Contract language",
+      "submit": "Create contract",
+      "submitting": "Creating contract…"
+    },
+    "errors": {
+      "name": "Enter a contract name of up to 200 characters.",
+      "invalid": "Choose a form of contract and a language."
+    }
+  },
+  "Documents": {
+    "back": "All contracts",
+    "upload": {
+      "title": "Upload a document",
+      "kind": "Document type",
+      "file": "File",
+      "hint": "PDF, DOCX or text, up to 50 MB.",
+      "submit": "Upload document",
+      "uploading": "Uploading file…",
+      "processing": "Extracting text and splitting clauses…",
+      "done": "{filename} uploaded. {clauses, plural, one {# clause} other {# clauses}} found.",
+      "doneNeedsOcr": "{filename} uploaded. It has no text layer, so it needs OCR."
+    },
+    "errors": {
+      "chooseFile": "Choose a file to upload.",
+      "fileType": "Upload a PDF, DOCX or text file.",
+      "fileSize": "This file is over the 50 MB limit.",
+      "uploadFailed": "The file could not be stored. Try again.",
+      "invalidRequest": "The upload request was not valid. Reload the page and try again.",
+      "contractNotFound": "This contract no longer exists.",
+      "blobNotFound": "The uploaded file could not be found. Upload it again.",
+      "emptyText": "This file contains no text.",
+      "extractionFailed": "The text could not be read. Check that the file opens normally and has no password."
+    },
+    "warnings": {
+      "pagesWithoutText": "These pages have no text layer and were skipped: {pages}. They may be scanned.",
+      "docxAutoNumbering": "{paragraphs, plural, one {# paragraph uses} other {# paragraphs use}} Word’s automatic numbering, so those numbers are not in the text. Export the file to PDF and upload that instead."
+    },
+    "list": {
+      "title": "Documents",
+      "empty": "No documents yet. Upload the general conditions first.",
+      "summary": "{pages, plural, =0 {} one {# page, } other {# pages, }}{clauses, plural, one {# clause} other {# clauses}}"
+    },
+    "needsOcr": "No text layer was found. Run scripts/ocr.py on this file on your own machine, then upload the text file it writes as an OCR text document.",
+    "failed": "The text could not be read from this file. Upload it again, or check that it opens normally.",
+    "fallback": {
+      "tooFewClauses": "Only {clauses, plural, one {# clause was} other {# clauses were}} found, so this split may be incomplete.",
+      "clauseTooLong": "{clauseRef} has {words} words, so it may contain clauses the splitter missed."
+    },
+    "clauses": {
+      "toggle": "Clause list",
+      "preamble": "Before the first clause",
+      "columns": {
+        "ref": "Reference",
+        "heading": "Heading and opening text",
+        "pages": "Pages",
+        "words": "Words"
+      }
+    }
   }
 }
