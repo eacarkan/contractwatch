@@ -129,10 +129,13 @@ describe("goldSetSchema", () => {
     ).toThrow(/Art\. 9 is not in labelledClauseRefs/);
   });
 
-  it("accepts the repository's gold set", () => {
-    const gold = JSON.parse(readFileSync("test/gold/ccag.json", "utf8"));
-    expect(() => goldSetSchema.parse(gold)).not.toThrow();
-  });
+  it.each(["ccag.json", "ccag-chatgpt-reference.json"])(
+    "accepts the repository's %s",
+    (file) => {
+      const gold = JSON.parse(readFileSync(`test/gold/${file}`, "utf8"));
+      expect(() => goldSetSchema.parse(gold)).not.toThrow();
+    },
+  );
 });
 
 describe("clausesInSubset", () => {

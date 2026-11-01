@@ -2,6 +2,15 @@
 
 `ccag.json` holds time-bound obligations labelled by hand from the published CCAG-Travaux general conditions. `pnpm eval` scores the model against it. Label from the clause text alone, without looking at the model's output.
 
+## Files
+
+| File | Who labelled it | What a score against it means |
+|---|---|---|
+| `ccag.json` | A person, from the clause text. Empty so far. | Accuracy. Only this file can give a result to quote. |
+| `ccag-chatgpt-reference.json` | ChatGPT, then reviewed by ChatGPT. No person has checked it. 30 clauses, 8 obligations. | How often two AI models agree. It tests the pipeline and is not a measure of accuracy. |
+
+Pass the second file with `pnpm eval <documentId> --gold test/gold/ccag-chatgpt-reference.json`.
+
 ## Format
 
 ```json
