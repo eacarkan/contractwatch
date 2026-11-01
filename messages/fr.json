@@ -99,7 +99,7 @@
     "needsOcr": "Aucune couche de texte n’a été trouvée. Exécutez scripts/ocr.py sur ce fichier sur votre ordinateur, puis téléversez le fichier texte obtenu comme document Texte OCR.",
     "failed": "Le texte de ce fichier n’a pas pu être lu. Téléversez-le de nouveau, ou vérifiez qu’il s’ouvre normalement.",
     "fallback": {
-      "tooFewClauses": "{clauses, plural, one {Seule # clause a été trouvée} other {Seules # clauses ont été trouvées}} : ce découpage est peut-être incomplet.",
+      "tooFewClauses": "{clauses, plural, =0 {Aucune clause n’a été trouvée} one {Seule # clause a été trouvée} other {Seules # clauses ont été trouvées}} : ce découpage est peut-être incomplet.",
       "clauseTooLong": "{clauseRef} compte {words} mots : elle contient peut-être des clauses que le découpage n’a pas repérées."
     },
     "clauses": {

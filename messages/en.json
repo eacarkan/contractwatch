@@ -99,7 +99,7 @@
     "needsOcr": "No text layer was found. Run scripts/ocr.py on this file on your own machine, then upload the text file it writes as an OCR text document.",
     "failed": "The text could not be read from this file. Upload it again, or check that it opens normally.",
     "fallback": {
-      "tooFewClauses": "Only {clauses, plural, one {# clause was} other {# clauses were}} found, so this split may be incomplete.",
+      "tooFewClauses": "{clauses, plural, =0 {No clauses were} one {Only # clause was} other {Only # clauses were}} found, so this split may be incomplete.",
       "clauseTooLong": "{clauseRef} has {words} words, so it may contain clauses the splitter missed."
     },
     "clauses": {
