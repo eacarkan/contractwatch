@@ -7,3 +7,4 @@ prisma/migrations
 raw
 .local-blob
 *.md
+data/seed/

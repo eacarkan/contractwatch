@@ -9,6 +9,7 @@
 import { writeFileSync } from "node:fs";
 
 import { prisma } from "@/lib/db";
+import { CURRENT_PROMPT } from "@/lib/llm/prompts";
 
 async function main() {
   const [contractId, name] = process.argv.slice(2);
@@ -26,12 +27,19 @@ async function main() {
         include: {
           clauses: { orderBy: { orderIndex: "asc" } },
           runs: {
-            where: { status: "DONE" },
+            where: { status: "DONE", promptVersion: CURRENT_PROMPT.version },
             omit: { rawOutput: true },
           },
         },
       },
       obligations: {
+        // Older prompts' unreviewed items are set aside in the app, so they stay behind.
+        where: {
+          OR: [
+            { run: { promptVersion: CURRENT_PROMPT.version } },
+            { reviewStatus: { not: "PENDING" } },
+          ],
+        },
         include: { revisions: true },
         orderBy: { createdAt: "asc" },
       },

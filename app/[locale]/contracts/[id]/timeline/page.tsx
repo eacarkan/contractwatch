@@ -38,14 +38,14 @@ export default async function TimelinePage({
       OR: [
         { deadlines: { some: {} } },
         { links: { some: {} } },
-        { id: requested },
+        ...(requested ? [{ id: requested }] : []),
       ],
     },
     orderBy: [{ clause: { orderIndex: "asc" } }, { createdAt: "asc" }],
     select: { id: true, clauseRef: true, title: true },
   });
 
-  const selectedId = requested ?? obligations[0]?.id;
+  const selectedId = requested || obligations[0]?.id;
   const selected = selectedId
     ? await prisma.obligation.findFirst({
         where: { id: selectedId, contractId: id },

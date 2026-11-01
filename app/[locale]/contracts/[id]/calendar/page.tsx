@@ -120,7 +120,7 @@ export default async function CalendarPage({
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[42rem] table-fixed border-collapse text-sm">
+            <table className="w-full min-w-[36rem] table-fixed border-collapse text-sm">
               <thead>
                 <tr>
                   {weekdays.map((weekday) => (
@@ -143,7 +143,7 @@ export default async function CalendarPage({
                       return (
                         <td
                           key={key}
-                          className={`border-border h-24 border p-1 align-top ${
+                          className={`border-border h-24 overflow-hidden border p-1 align-top ${
                             isWorkingDay(day, holidays) ? "" : "bg-muted/60"
                           } ${inMonth ? "" : "text-muted-foreground"}`}
                         >
@@ -152,9 +152,9 @@ export default async function CalendarPage({
                           >
                             {day.getUTCDate()}
                           </span>
-                          <ul className="mt-1 grid gap-1">
+                          <ul className="mt-1 grid grid-cols-1 gap-1">
                             {byDay.get(key)?.map((deadline) => (
-                              <li key={deadline.id}>
+                              <li key={deadline.id} className="min-w-0">
                                 <Link
                                   href={`/contracts/${id}/timeline?obligation=${deadline.obligationId}`}
                                   lang={contract.language}

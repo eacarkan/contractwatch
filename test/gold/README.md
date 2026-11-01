@@ -1,13 +1,14 @@
 # Gold set
 
-`ccag.json` holds time-bound obligations labelled by hand from the published CCAG-Travaux general conditions. `pnpm eval` scores the model against it. Label from the clause text alone, without looking at the model's output.
+`pnpm eval` scores the model against a gold set. Label from the clause text alone, without looking at the model's output.
 
 ## Files
 
 | File | Who labelled it | What a score against it means |
 |---|---|---|
-| `ccag.json` | A person, from the clause text. Empty so far. | Accuracy. Only this file can give a result to quote. |
+| `ccag.json` | Reserved for labels a person makes from the clause text. Empty. | Accuracy on real conditions, once it holds any. |
 | `ccag-chatgpt-reference.json` | ChatGPT, then reviewed by ChatGPT. No person has checked it. 30 clauses, 8 obligations. | How often two AI models agree. It tests the pipeline and is not a measure of accuracy. |
+| `specimen-epc.json` | The author of the synthetic specimen contract, as its answer key, written by Claude with the contract. No person has checked it. | How well the model reads simple text whose answers are known. It says little about real contracts. |
 
 Pass the second file with `pnpm eval <documentId> --gold test/gold/ccag-chatgpt-reference.json`.
 
