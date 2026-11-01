@@ -39,6 +39,8 @@ On its own it also matches wrapped sentences, amounts, dates and contents pages,
 - rejection of cross-references, numbers inside sentences, dates, contents lines and running page furniture;
 - a numbering check: the accepted clauses are the heaviest chain of strictly increasing clause numbers, so one stray match cannot derail the rest.
 
+The numbering check expects one numbered sequence per file. A source that bundles several sets of conditions, or a tender dossier with several parts, is cut to the relevant page range before upload, keeping the page numbers where possible.
+
 Text before the first clause is kept as a `preamble` row, so nothing is lost silently. References are stored as `Art. 14.3` for articles and `20.1` for clauses.
 
 An LLM fallback is specified for documents with fewer than 10 clauses or a clause over 3,000 words. It is planned; for now the app flags those conditions.
