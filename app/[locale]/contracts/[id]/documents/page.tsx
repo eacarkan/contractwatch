@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
+import { ContractHeader } from "@/components/contract-header";
 import { UploadForm } from "@/components/upload-form";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -14,7 +15,6 @@ import {
 import { usesVercelBlob } from "@/lib/blob";
 import { prisma } from "@/lib/db";
 import type { TextStatus } from "@/lib/generated/prisma/enums";
-import { Link } from "@/lib/i18n/navigation";
 import {
   countNumberedClauses,
   countWords,
@@ -58,22 +58,10 @@ export default async function DocumentsPage({
   const t = await getTranslations("Documents");
   const kinds = await getTranslations("DocKind");
   const statuses = await getTranslations("TextStatus");
-  const contractTypes = await getTranslations("ContractType");
 
   return (
     <div className="grid grid-cols-1 gap-8">
-      <header>
-        <Link
-          href="/contracts"
-          className="text-muted-foreground text-sm underline-offset-4 hover:underline"
-        >
-          {t("back")}
-        </Link>
-        <h1 className="font-heading mt-1 text-3xl font-semibold">
-          {contract.name}
-        </h1>
-        <p className="text-muted-foreground">{contractTypes(contract.type)}</p>
-      </header>
+      <ContractHeader contract={contract} active="documents" />
 
       <UploadForm
         contractId={contract.id}

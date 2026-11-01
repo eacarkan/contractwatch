@@ -64,7 +64,6 @@
     }
   },
   "Documents": {
-    "back": "Tous les contrats",
     "upload": {
       "title": "Téléverser un document",
       "kind": "Type de document",
@@ -120,5 +119,143 @@
       }
     },
     "readByOcr": "Ce texte a été lu par OCR. Vérifiez les dates, les montants et les numéros de clause par rapport au document numérisé."
+  },
+  "ContractNav": {
+    "label": "Sections du contrat",
+    "back": "Tous les contrats",
+    "documents": "Documents",
+    "review": "Revue",
+    "register": "Registre"
+  },
+  "PartyRole": {
+    "CONTRACTOR": "Entrepreneur",
+    "EMPLOYER": "Maître d’ouvrage",
+    "ENGINEER": "Maître d’œuvre",
+    "PROJECT_MANAGER": "Chef de projet",
+    "EITHER": "L’une ou l’autre partie",
+    "OTHER": "Autre"
+  },
+  "ObligationCategory": {
+    "NOTICE": "Notification",
+    "SUBMISSION": "Remise de document",
+    "PAYMENT": "Paiement",
+    "APPROVAL": "Approbation",
+    "PROGRAMME": "Programme",
+    "INSURANCE": "Assurance",
+    "SECURITY": "Garantie",
+    "TESTING": "Essais",
+    "COMPLETION": "Achèvement",
+    "DEFECTS": "Malfaçons",
+    "VARIATION": "Modification",
+    "CLAIM": "Réclamation",
+    "DISPUTE": "Différend",
+    "OTHER": "Autre"
+  },
+  "TriggerType": {
+    "FIXED_DATE": "Date fixe",
+    "EVENT": "Événement",
+    "PERIODIC": "Périodique",
+    "ON_DEMAND": "Sur demande"
+  },
+  "DayBasis": {
+    "CALENDAR_DAYS": "jours calendaires",
+    "WORKING_DAYS": "jours ouvrables",
+    "MONTHS": "mois"
+  },
+  "PeriodDirection": {
+    "AFTER": "après le déclencheur",
+    "BEFORE": "avant le déclencheur"
+  },
+  "ReviewStatus": {
+    "PENDING": "En attente de revue",
+    "CONFIRMED": "Confirmée",
+    "EDITED": "Modifiée",
+    "REJECTED": "Rejetée"
+  },
+  "Review": {
+    "progress": "{reviewed} sur {total} revues",
+    "allDone": "Toutes les obligations extraites ont été revues.",
+    "nothingYet": "Aucune obligation n’attend de revue. Lancez d’abord l’extraction sur un document.",
+    "openRegister": "Ouvrir le registre",
+    "clauseLabel": "Clause {ref}",
+    "source": {
+      "title": "Clause source",
+      "clause": "Clause {ref}",
+      "pages": "Pages {from} à {to}",
+      "noClause": "Cet élément cite une clause absente du document : aucun texte source ne peut être affiché. Vérifiez-le dans le document.",
+      "quoteNotFound": "La citation ne figure pas mot pour mot dans cette clause : rien n’est surligné. Lisez la clause avant de confirmer.",
+      "page": "Page {page}"
+    },
+    "fields": {
+      "clauseRef": "Référence de la clause",
+      "title": "Titre",
+      "description": "Description",
+      "obligor": "Partie tenue d’agir",
+      "counterparty": "Autre partie",
+      "category": "Catégorie",
+      "triggerType": "Type de déclencheur",
+      "triggerEvent": "Événement déclencheur",
+      "period": "Délai",
+      "periodValue": "Durée du délai",
+      "periodBasis": "Unité du délai",
+      "periodDirection": "Décompté",
+      "recurrenceDays": "Se répète tous les (jours)",
+      "isTimeBar": "Forclusion",
+      "consequence": "Conséquence",
+      "sourceQuote": "Citation de la clause",
+      "note": "Note du réviseur (facultative)"
+    },
+    "values": {
+      "yes": "Oui",
+      "no": "Non",
+      "none": "Aucune",
+      "noPeriod": "Aucun délai indiqué"
+    },
+    "notes": {
+      "lowConfidence": "Confiance faible : le modèle indique {confidence, number, percent}. Vérifiez que cette clause comporte bien un délai.",
+      "quote-not-in-clause": "La citation du modèle ne figure pas mot pour mot dans cette clause.",
+      "unknown-clause-ref": "Le modèle a cité une clause absente de son lot.",
+      "period-without-basis": "Le modèle a indiqué un délai sans unité."
+    },
+    "actions": {
+      "confirm": "Confirmer",
+      "edit": "Modifier",
+      "reject": "Rejeter",
+      "save": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "keys": "Touches : C confirmer, E modifier, R rejeter",
+      "saving": "Enregistrement…"
+    },
+    "errors": {
+      "invalid": "Vérifiez les champs : un titre de 90 caractères au plus, une citation de 400 au plus, et une unité pour tout délai.",
+      "notFound": "Cette obligation n’existe plus. Rechargez la page.",
+      "unknownClause": "Aucune clause de ce document ne porte cette référence."
+    }
+  },
+  "Register": {
+    "title": "Registre des obligations",
+    "count": "{count, plural, one {# obligation} other {# obligations}}",
+    "empty": "Aucune obligation confirmée pour l’instant. Commencez par revoir les obligations extraites.",
+    "noMatches": "Aucune obligation ne correspond à ces filtres.",
+    "exportCsv": "Exporter en CSV",
+    "exportXlsx": "Exporter en XLSX",
+    "filters": {
+      "obligor": "Partie",
+      "category": "Catégorie",
+      "timeBar": "Forclusion",
+      "status": "Statut",
+      "all": "Toutes",
+      "apply": "Appliquer les filtres"
+    },
+    "columns": {
+      "ref": "Clause",
+      "title": "Obligation",
+      "obligor": "Partie",
+      "category": "Catégorie",
+      "period": "Délai",
+      "timeBar": "Forclusion",
+      "status": "Statut",
+      "nextDue": "Prochaine échéance"
+    }
   }
 }

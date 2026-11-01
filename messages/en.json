@@ -64,7 +64,6 @@
     }
   },
   "Documents": {
-    "back": "All contracts",
     "upload": {
       "title": "Upload a document",
       "kind": "Document type",
@@ -120,5 +119,143 @@
       }
     },
     "readByOcr": "This text was read by OCR. Check dates, amounts and clause numbers against the scan."
+  },
+  "ContractNav": {
+    "label": "Contract sections",
+    "back": "All contracts",
+    "documents": "Documents",
+    "review": "Review",
+    "register": "Register"
+  },
+  "PartyRole": {
+    "CONTRACTOR": "Contractor",
+    "EMPLOYER": "Employer",
+    "ENGINEER": "Engineer",
+    "PROJECT_MANAGER": "Project manager",
+    "EITHER": "Either party",
+    "OTHER": "Other"
+  },
+  "ObligationCategory": {
+    "NOTICE": "Notice",
+    "SUBMISSION": "Submission",
+    "PAYMENT": "Payment",
+    "APPROVAL": "Approval",
+    "PROGRAMME": "Programme",
+    "INSURANCE": "Insurance",
+    "SECURITY": "Security",
+    "TESTING": "Testing",
+    "COMPLETION": "Completion",
+    "DEFECTS": "Defects",
+    "VARIATION": "Variation",
+    "CLAIM": "Claim",
+    "DISPUTE": "Dispute",
+    "OTHER": "Other"
+  },
+  "TriggerType": {
+    "FIXED_DATE": "Fixed date",
+    "EVENT": "Event",
+    "PERIODIC": "Periodic",
+    "ON_DEMAND": "On request"
+  },
+  "DayBasis": {
+    "CALENDAR_DAYS": "calendar days",
+    "WORKING_DAYS": "working days",
+    "MONTHS": "months"
+  },
+  "PeriodDirection": {
+    "AFTER": "after the trigger",
+    "BEFORE": "before the trigger"
+  },
+  "ReviewStatus": {
+    "PENDING": "Waiting for review",
+    "CONFIRMED": "Confirmed",
+    "EDITED": "Edited",
+    "REJECTED": "Rejected"
+  },
+  "Review": {
+    "progress": "{reviewed} of {total} reviewed",
+    "allDone": "Every extracted obligation has been reviewed.",
+    "nothingYet": "No obligations are waiting for review. Run extraction on a document first.",
+    "openRegister": "Open the register",
+    "clauseLabel": "Clause {ref}",
+    "source": {
+      "title": "Source clause",
+      "clause": "Clause {ref}",
+      "pages": "Pages {from} to {to}",
+      "noClause": "This item names a clause that is not in the document, so there is no source text to show. Check it against the document.",
+      "quoteNotFound": "The quote is not word for word in this clause, so nothing is highlighted. Read the clause before confirming.",
+      "page": "Page {page}"
+    },
+    "fields": {
+      "clauseRef": "Clause reference",
+      "title": "Title",
+      "description": "Description",
+      "obligor": "Party who must act",
+      "counterparty": "Other party",
+      "category": "Category",
+      "triggerType": "Trigger type",
+      "triggerEvent": "Trigger event",
+      "period": "Period",
+      "periodValue": "Period length",
+      "periodBasis": "Period unit",
+      "periodDirection": "Counted",
+      "recurrenceDays": "Repeats every (days)",
+      "isTimeBar": "Time bar",
+      "consequence": "Consequence",
+      "sourceQuote": "Quote from the clause",
+      "note": "Reviewer's note (optional)"
+    },
+    "values": {
+      "yes": "Yes",
+      "no": "No",
+      "none": "None",
+      "noPeriod": "No stated period"
+    },
+    "notes": {
+      "lowConfidence": "Low confidence: the model gave {confidence, number, percent}. Check that this clause is time-bound at all.",
+      "quote-not-in-clause": "The model's quote is not word for word in this clause.",
+      "unknown-clause-ref": "The model named a clause that was not in its batch.",
+      "period-without-basis": "The model gave a period with no unit."
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "edit": "Edit",
+      "reject": "Reject",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "keys": "Keys: C confirm, E edit, R reject",
+      "saving": "Saving…"
+    },
+    "errors": {
+      "invalid": "Check the fields: a title of up to 90 characters, a quote of up to 400, and a unit for any period.",
+      "notFound": "This obligation no longer exists. Reload the page.",
+      "unknownClause": "No clause in this document has that reference."
+    }
+  },
+  "Register": {
+    "title": "Obligations register",
+    "count": "{count, plural, one {# obligation} other {# obligations}}",
+    "empty": "No confirmed obligations yet. Review the extracted obligations first.",
+    "noMatches": "No obligations match these filters.",
+    "exportCsv": "Export CSV",
+    "exportXlsx": "Export XLSX",
+    "filters": {
+      "obligor": "Party",
+      "category": "Category",
+      "timeBar": "Time bar",
+      "status": "Status",
+      "all": "All",
+      "apply": "Apply filters"
+    },
+    "columns": {
+      "ref": "Clause",
+      "title": "Obligation",
+      "obligor": "Party",
+      "category": "Category",
+      "period": "Period",
+      "timeBar": "Time bar",
+      "status": "Status",
+      "nextDue": "Next due"
+    }
   }
 }
