@@ -10,7 +10,7 @@ Construction and EPC contracts spread their notice periods, time bars and paymen
 
 ## Status
 
-In development. Contract upload, text extraction and clause splitting work. Obligation extraction, review, the register and the calendar are still to come.
+In development. Contract upload, text extraction, clause splitting and obligation extraction work. No accuracy result has been measured yet. Review, the register and the calendar are still to come.
 
 ## Architecture
 
@@ -43,6 +43,17 @@ To see how a file splits into clauses without uploading it:
 ```bash
 pnpm split:preview path/to/conditions.pdf --rejected
 ```
+
+## Extraction
+
+The project is built to cost nothing to run, so extraction uses a model on your own computer or a free tier, through any OpenAI-compatible endpoint. Set `LLM_BASE_URL` and `LLM_MODEL` in `.env`; `.env.example` has examples. A free tier may use what you send it for training, so send it only public or anonymised text.
+
+```bash
+pnpm extract <documentId>   # add --delay-ms 7000 for a rate-limited free tier
+pnpm eval <documentId>      # prints recall, precision, period match and time-bar accuracy
+```
+
+Extraction resumes where it stopped. The public site has no model service set, so visitors see results but cannot start a run. `test/gold/README.md` explains the hand-labelled test set.
 
 ## OCR
 
